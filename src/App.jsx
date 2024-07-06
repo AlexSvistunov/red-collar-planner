@@ -8,11 +8,16 @@ import "./styles/calendar-styles-sass/styles.scss";
 import Button from "./components/ui/Button/Button";
 import AuthModal from "./components/ui/AuthModal/AuthModal";
 
+import { useAuth } from "./hooks/useAuth";
+
 const App = () => {
   const [events, setEvents] = useState([]);
-  const [isModalActive, setIsModalActive] = useState(true);
+  const [isModalActive, setIsModalActive] = useState(false);
   const [step, setStep] = useState(0);
   console.log(step);
+
+  const { token } = useAuth();
+  const { isAuth } = useAuth();
 
   const fetchData = async () => {
     try {
@@ -30,9 +35,11 @@ const App = () => {
       const response = await fetch(`${URL}/api/taken-emails/${email}`);
       if (response.ok && response.status !== 404) {
         setStep((prevStep) => prevStep + 1);
+      } else {
+        setStep(prevStep => prevStep + 2)
       }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   };
 
@@ -76,9 +83,20 @@ const App = () => {
             </div>
 
             {/* <button className="app__header-login">Войти</button> */}
-            <Button>Войти</Button>
+            {/* <Button>Войти</Button> */}
 
-            <button onClick={() => setIsModalActive(false)}>Войти</button>
+            {isAuth ? (
+              <div>
+                <button>
+                  <img src="/add.svg" alt="" />
+                  
+                </button>
+
+                <img src="/avatar.svg" alt="" />
+              </div>
+            ) : (
+              <button onClick={() => setIsModalActive(true)}>Войти</button>
+            )}
           </div>
         </div>
         <Calendar events={events} />
@@ -95,5 +113,7 @@ const App = () => {
     </div>
   );
 };
+
+// step 1 + modal close
 
 export default App;
