@@ -9,6 +9,7 @@ import Button from "./components/ui/Button/Button";
 import AuthModal from "./components/ui/AuthModal/AuthModal";
 
 import { useAuth } from "./hooks/useAuth";
+import CreateEventModal from "./components/ui/CreateEventModal/CreateEventModal";
 
 const App = () => {
   const [events, setEvents] = useState([]);
@@ -18,6 +19,9 @@ const App = () => {
 
   const { token } = useAuth();
   const { isAuth } = useAuth();
+
+  const [createEventActive, setCreateEventActive] = useState(true);
+  console.log(events)
 
   const fetchData = async () => {
     try {
@@ -36,7 +40,7 @@ const App = () => {
       if (response.ok && response.status !== 404) {
         setStep((prevStep) => prevStep + 1);
       } else {
-        setStep(prevStep => prevStep + 2)
+        setStep((prevStep) => prevStep + 2);
       }
     } catch (error) {
       console.log(error.message);
@@ -63,9 +67,39 @@ const App = () => {
     }
   };
 
+  const createEvent = async () => {
+    
+
+    console.log(token);
+    try {
+      const response = await fetch(`${URL}/api/events`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+
+        body: JSON.stringify({
+          title: "Event 3",
+          description: "Event 3 description",
+          dateStart: new Date(),  
+          location: "Paris",
+          participants: [1],
+        }),
+      });
+
+      const data = await response.json();
+      setEvents(data)
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div className="app">
       <div className="container">
@@ -89,7 +123,6 @@ const App = () => {
               <div>
                 <button>
                   <img src="/add.svg" alt="" />
-                  
                 </button>
 
                 <img src="/avatar.svg" alt="" />
@@ -110,6 +143,12 @@ const App = () => {
         setStep={setStep}
         loginUser={loginUser}
       ></AuthModal>
+
+      <CreateEventModal
+        isModalActive={createEventActive}
+        setIsModalActive={setCreateEventActive}
+        createEvent={createEvent}
+      />
     </div>
   );
 };
