@@ -1,0 +1,19 @@
+.app {
+  padding: 30px 0 60px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__header-right {
+    display: flex;
+    align-items: center;
+    gap: 134px;
+  }
+}
