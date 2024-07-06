@@ -31,7 +31,9 @@ const App = () => {
       if (response.ok && response.status !== 404) {
         setStep((prevStep) => prevStep + 1);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message)
+    }
   };
 
   const loginUser = async (email, password) => {
@@ -53,7 +55,7 @@ const App = () => {
       console.log(error.message);
     }
   };
-  // xdayx53@gmail.com
+
   useEffect(() => {
     fetchData();
   }, []);

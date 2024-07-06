@@ -2,8 +2,11 @@ import { useState } from "react";
 import styles from "./AuthModal.module.scss";
 
 import Button from "../Button/Button";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../../store/slices/userSlice";
 
 const AuthModal = ({ isModalActive, setIsModalActive, userExist, step, setStep, loginUser }) => {
+  const dispatch = useDispatch()
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState('')
 
@@ -68,7 +71,8 @@ const AuthModal = ({ isModalActive, setIsModalActive, userExist, step, setStep, 
             {/* <Button>Далее</Button> */}
             <button
               className={styles.ModalContentNextBtn}
-              onClick={() => loginUser(emailValue, passwordValue)}
+              // onClick={() => loginUser(emailValue, passwordValue)}
+              onClick={() => dispatch(logIn({email: emailValue, password: passwordValue}))}
             >
               Войти
             </button>
