@@ -83,6 +83,7 @@ const App = () => {
           title: "Event 3",
           description: "Event 3 description",
           dateStart: new Date(),  
+          dateEnd: new Date(),
           location: "Paris",
           participants: [1],
         }),
