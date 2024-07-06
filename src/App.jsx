@@ -6,9 +6,13 @@ import "./App.scss";
 
 import "./styles/calendar-styles-sass/styles.scss";
 import Button from "./components/ui/Button/Button";
+import AuthModal from "./components/ui/AuthModal/AuthModal";
 
 const App = () => {
   const [events, setEvents] = useState([]);
+  const [isModalActive, setIsModalActive] = useState(true);
+  const [step, setStep] = useState(0);
+  console.log(step);
 
   const fetchData = async () => {
     try {
@@ -21,6 +25,35 @@ const App = () => {
     }
   };
 
+  const userExist = async (email) => {
+    try {
+      const response = await fetch(`${URL}/api/taken-emails/${email}`);
+      if (response.ok && response.status !== 404) {
+        setStep((prevStep) => prevStep + 1);
+      }
+    } catch (error) {}
+  };
+
+  const loginUser = async (email, password) => {
+    try {
+      const response = await fetch(`${URL}/api/auth/local`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier: email,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  // xdayx53@gmail.com
   useEffect(() => {
     fetchData();
   }, []);
@@ -41,14 +74,22 @@ const App = () => {
             </div>
 
             {/* <button className="app__header-login">Войти</button> */}
-            <Button>
-              Войти
-            </Button>
+            <Button>Войти</Button>
 
+            <button onClick={() => setIsModalActive(false)}>Войти</button>
           </div>
         </div>
         <Calendar events={events} />
       </div>
+
+      <AuthModal
+        isModalActive={isModalActive}
+        setIsModalActive={setIsModalActive}
+        userExist={userExist}
+        step={step}
+        setStep={setStep}
+        loginUser={loginUser}
+      ></AuthModal>
     </div>
   );
 };
