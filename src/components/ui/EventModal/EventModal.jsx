@@ -3,10 +3,10 @@ import { URL } from "../../../api/url";
 import { useAuth } from "../../../hooks/useAuth";
 import styles from "./EventModal.module.scss";
 
-const EventModal = ({isModalActive, setIsModalActive, id}) => {
+const EventModal = ({isModalActive, setIsModalActive, item}) => {
   const { isAuth, token } = useAuth();
 
-  console.log(id);
+  console.log(item);
 
   const getEventsForPublic = async () => {
     try {
@@ -59,12 +59,15 @@ const EventModal = ({isModalActive, setIsModalActive, id}) => {
   return (
     <div className={isModalActive ? 'modal modal--active' : 'modal'}>
       <div className={styles.Content}>
-        <div className={styles.ContentWrapper}>
-          <h2 className={styles.ContentTitle}></h2>
+        {item && <div className={styles.ContentWrapper}>
+          <h2 className={styles.ContentTitle}>{item.title}</h2>
 
           <div className={styles.ContentBlock}>
-            <div className={styles.ContentInfo}></div>
-            <div className={styles.ContentDescr}></div>
+            <div className={styles.ContentInfo}>
+              {item.dateStart}
+              {item.location}
+            </div>
+            <div className={styles.ContentDescr}>{item.description}</div>
           </div>
 
           <div className={styles.Part}>
@@ -83,7 +86,7 @@ const EventModal = ({isModalActive, setIsModalActive, id}) => {
             <button>Войдите,</button>
             чтобы присоединиться к событию
         </div>}
-        </div>
+        </div>}
       </div>
     </div>
   );

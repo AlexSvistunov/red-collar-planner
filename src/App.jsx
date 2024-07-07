@@ -27,6 +27,8 @@ const App = () => {
   const [createEventActive, setCreateEventActive] = useState(false);
   const [watchEventActive, setWatchEventActive] = useState(false);
 
+  console.log(events);
+
   const fetchData = async () => {
     try {
       const response = await fetch(`${URL}/api/events/`);

@@ -13,11 +13,11 @@ const MyCalendar = ({
   isModalActive,
   setIsModalActive,
 }) => {
-  const [activeId, setActiveId] = useState(null)
+  const [activeItem, setActiveItem] = useState(null)
   
   const handleSelectEvent = (event) => {
     setWatchEventActive(true);
-    setActiveId(event.id)
+    setActiveItem(event)
   };
 
   const localizer = momentLocalizer(moment);
@@ -49,7 +49,7 @@ const MyCalendar = ({
       <EventModal
         isModalActive={isModalActive}
         setIsModalActive={setWatchEventActive}
-        id={activeId}
+        item={activeItem}
         //or item
       />
     </div>
