@@ -1,0 +1,83 @@
+### Register a user
+POST {{URL}}/auth/local/register
+Content-Type: application/json
+
+{
+    "username": "John Doe",
+    "email": "johndoe@mail.com",
+    "password": "Password123456"
+}
+
+### Exist user by email (404 if not exist)
+GET {{URL}}/taken-emails/test@test.com
+
+### Login a user
+POST {{URL}}/auth/local
+Content-Type: application/json
+
+{
+    "identifier": "johndoe@mail.com",
+    "password": "Password123456"
+}
+
+### Get me
+GET {{URL}}/users/me
+Authorization: Bearer {{TOKEN}}
+
+### Get all users
+GET {{URL}}/users
+Authorization: Bearer {{TOKEN}}
+
+### Create new event with participants
+POST {{URL}}/events
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/json
+
+{
+    "title": "Event 1",
+    "description": "Event 1 description",
+    "dateStart": "2022-10-14T14:00:00.000Z",
+    "location": "Paris",
+    "participants": [1]
+}
+
+### Update event data with photos
+PUT {{URL}}/events/1
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/json
+
+{
+    "title": "Event 2",
+    "description": "Event 1 description",
+    "dateStart": "2022-10-14T14:00:00.000Z",
+    "location": "London",
+    "participants": [],
+    "photos": [1]
+}
+
+### Delete event
+DELETE {{URL}}/events/1
+Authorization: Bearer {{TOKEN}}
+
+### Get events for public users
+GET {{URL}}/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z
+
+### Get events for authenticated users
+GET {{URL}}/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z
+Authorization: Bearer {{TOKEN}}
+
+### Join event
+POST {{URL}}/events/2/join
+Authorization: Bearer {{TOKEN}}
+
+### Leave event
+POST {{URL}}/events/2/leave
+Authorization: Bearer {{TOKEN}}
+
+### Get files
+GET {{URL}}/upload/files
+Authorization: Bearer {{TOKEN}}
+
+### Upload file
+POST {{URL}}/upload
+Authorization: Bearer {{TOKEN}}
