@@ -3,7 +3,7 @@ import { URL } from "../../../api/url";
 import { useAuth } from "../../../hooks/useAuth";
 import styles from "./EventModal.module.scss";
 
-const EventModal = ({isModalActive, setIsModalActive, item}) => {
+const EventModal = ({isModalActive, setIsModalActive, item, joinEvent}) => {
   const { isAuth, token } = useAuth();
 
   console.log(item);
@@ -13,6 +13,7 @@ const EventModal = ({isModalActive, setIsModalActive, item}) => {
       const response = await fetch(`${URL}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`)
 
       const data = await response.json()
+      console.log(data)
     
     } catch (error) {
       console.log(error);
@@ -29,6 +30,7 @@ const EventModal = ({isModalActive, setIsModalActive, item}) => {
       })
 
       const data = await response.json()
+      console.log(data)
     } catch (error) {
       console.log(error);
     }
@@ -44,6 +46,7 @@ const EventModal = ({isModalActive, setIsModalActive, item}) => {
       })
 
       const data = await response.json()
+      console.log(data);
       
     } catch (error) {
       console.log(error);
@@ -64,8 +67,9 @@ const EventModal = ({isModalActive, setIsModalActive, item}) => {
 
           <div className={styles.ContentBlock}>
             <div className={styles.ContentInfo}>
-              {item.dateStart}
-              {item.location}
+              <span>{item.dateStart}
+             </span>
+             <span> {item.location}</span>
             </div>
             <div className={styles.ContentDescr}>{item.description}</div>
           </div>
@@ -82,7 +86,9 @@ const EventModal = ({isModalActive, setIsModalActive, item}) => {
             {/* gallery */}
           </div>
 
-          {isAuth ? <button>Присоединиться к событию</button> : <div>
+          {isAuth ? <button onClick={() => {
+            joinEvent(item.id)
+          }} className={[styles.ContentJoin, 'button'].join(' ')}>Присоединиться к событию</button> : <div>
             <button>Войдите,</button>
             чтобы присоединиться к событию
         </div>}

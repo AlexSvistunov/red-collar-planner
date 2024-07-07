@@ -1,18 +1,67 @@
 .Content {
+    max-width: 1075px;
+    background-color: white;
+    border-radius: 64px;
+    min-height: 600px;
+    width: 100%;
+    padding: 80px 64px;
+    display: flex;
 
-    &Wrapper {}
-    &Title {}
-    &Block{}
-    &Info{}
-    &Descr{}
+    &Wrapper {
+        flex: 1 1 auto;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    &Title {
+        font-family: var(--second-family);
+        font-weight: 400;
+        font-size: 36px;
+        line-height: 100%;
+        letter-spacing: -0.02em;
+        text-align: center;
+        color: #0d0c0c;
+    }
+    &Block {
+        display: flex;
+        gap: 32px;
+    }
+    &Info {
+        border-radius: 24px;
+        padding: 15px 12px 15px 16px;
+        display: flex;
+        flex-direction: column;
+
+        gap: 8px;
+        background: #fafafa;
+
+       
+    }
+    &Descr {
+        font-family: var(--font-family);
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 140%;
+        letter-spacing: -0.02em;
+        color: #0d0c0c;
+    }
+
+    &Join {
+        margin-top: auto;
+        align-self: center;
+    }
 }
 
 .Part {
-    &Title{}
-    &List{}
-    &Item{}
+    &Title {
+    }
+    &List {
+    }
+    &Item {
+    }
 }
 
 .Gallery {
-    &Title{}
+    &Title {
+    }
 }

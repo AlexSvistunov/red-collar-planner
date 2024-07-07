@@ -29,17 +29,18 @@ const App = () => {
 
   console.log(events);
 
-  const fetchData = async () => {
+  const getEventsForPublic = async () => {
     try {
-      const response = await fetch(`${URL}/api/events/`);
-      const data = await response.json();
-      setEvents(data.data);
+      const response = await fetch(`${URL}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`)
+
+      const data = await response.json()
+      setEvents(data.data)
+      console.log(data)
     
     } catch (error) {
-      console.error("An error occurred:", error);
+      console.log(error);
     }
-  };
-
+  }
   const userExist = async (email) => {
     try {
       const response = await fetch(`${URL}/api/taken-emails/${email}`);
@@ -73,6 +74,24 @@ const App = () => {
     }
   };
 
+
+   const joinEvent = async (id) => {
+    try {
+      const response = await fetch(`${URL}/api/events/${id}/join`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
+  
+
+
   const createEvent = async (obj) => {
  
     try {
@@ -95,7 +114,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    getEventsForPublic()
   }, []);
 
   return (
@@ -136,7 +155,7 @@ const App = () => {
             )}
           </div>
         </div>
-        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} isModalActive={watchEventActive} setIsModalActive={setWatchEventActive} />
+        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} isModalActive={watchEventActive} setIsModalActive={setWatchEventActive} joinEvent={joinEvent} />
       </div>
 
       <AuthModal
