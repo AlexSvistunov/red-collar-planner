@@ -145,10 +145,10 @@
   align-items: center;
   background-image: url('/arrow-left.svg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 32px 32px;
   background-position: center;
   width: 64px;
-  height: 64px;
+  height: 48px;
   background-color: #efefef;
   font-size: 0;
   border-radius: 8px;
@@ -170,3 +170,47 @@
   color: #0d0c0c;
 }
 
+.rbc-button-link {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: -0.02em;
+  text-align: right;
+  color: #000;
+  padding: 12px;
+}
+
+.rbc-off-range-bg {
+  background-color: transparent;
+}
+
+.rbc-off-range .rbc-button-link {
+  color: #a4a4a4;
+}
+
+.rbc-month-view {
+  border-radius: 24px;
+  margin-top: 50px;
+}
+
+.rbc-month-header {
+  transform: translateY(-40px);
+}
+
+.rbc-header + .rbc-header {
+  border: none;
+}
+
+.rbc-header {
+  border: none;
+  text-align: right;
+}
+
+.rbc-header span {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-align: right;
+  color: #000;
+}

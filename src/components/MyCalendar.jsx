@@ -29,7 +29,7 @@ const MyCalendar = ({events}) => {
         events={events}
           startAccessor="dateStart"
           endAccessor="dateEnd"
-        style={{ height: 1000 }}
+        style={{ height: 900 }}
         onSelectEvent={handleSelectEvent}
       />
     </div>
