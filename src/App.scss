@@ -17,3 +17,20 @@
     gap: 134px;
   }
 }
+
+.modal {
+  background-color: rgba(69, 75, 87, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: none;
+
+  &--active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

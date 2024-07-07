@@ -10,6 +10,7 @@ import AuthModal from "./components/ui/AuthModal/AuthModal";
 
 import { useAuth } from "./hooks/useAuth";
 import CreateEventModal from "./components/ui/CreateEventModal/CreateEventModal";
+import EventModal from "./components/ui/EventModal/EventModal";
 
 const App = () => {
   const [events, setEvents] = useState([]);
@@ -20,8 +21,9 @@ const App = () => {
   const { token } = useAuth();
   const { isAuth } = useAuth();
 
-  const [createEventActive, setCreateEventActive] = useState(true);
-  console.log(events)
+  const [createEventActive, setCreateEventActive] = useState(false);
+  const [watchEventActive, setWatchEventActive] = useState(false);
+
 
   const fetchData = async () => {
     try {
@@ -67,9 +69,8 @@ const App = () => {
     }
   };
 
-  const createEvent = async () => {
+  const createEvent = async (obj) => {
     
-
     console.log(token);
     try {
       const response = await fetch(`${URL}/api/events`, {
@@ -79,18 +80,14 @@ const App = () => {
           Authorization: `Bearer ${token}`,
         },
 
-        body: JSON.stringify({
-          title: "Event 3",
-          description: "Event 3 description",
-          dateStart: new Date(),  
-          dateEnd: new Date(),
-          location: "Paris",
-          participants: [1],
-        }),
+        body: JSON.stringify(obj),
       });
 
       const data = await response.json();
-      setEvents(data)
+      setEvents([
+        ...events,
+        data
+      ])
       console.log(data);
     } catch (error) {
       console.log(error.message);
@@ -122,7 +119,7 @@ const App = () => {
 
             {isAuth ? (
               <div>
-                <button>
+                <button onClick={() => setCreateEventActive(true)}>
                   <img src="/add.svg" alt="" />
                 </button>
 
@@ -150,6 +147,8 @@ const App = () => {
         setIsModalActive={setCreateEventActive}
         createEvent={createEvent}
       />
+
+      <EventModal isModalActive={watchEventActive} setIsModalActive={setWatchEventActive}/>
     </div>
   );
 };

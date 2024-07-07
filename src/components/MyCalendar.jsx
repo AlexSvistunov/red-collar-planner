@@ -12,6 +12,10 @@ const MyCalendar = ({events}) => {
   //   end: new Date(event.dateEnd),
   // }));
 
+  const handleSelectEvent = (event) => {
+    alert(event.id)
+  }
+
   const localizer = momentLocalizer(moment);
   return (
     <div style={{padding: '20px'}}>
@@ -26,6 +30,7 @@ const MyCalendar = ({events}) => {
           startAccessor="dateStart"
           endAccessor="dateEnd"
         style={{ height: 1000 }}
+        onSelectEvent={handleSelectEvent}
       />
     </div>
   );

@@ -27,11 +27,7 @@ const AuthModal = ({
   console.log(registerFields)
   return (
     <div
-      className={
-        isModalActive
-          ? [styles.Modal, styles.ModalActive].join(" ")
-          : styles.Modal
-      }
+    className={isModalActive ? 'modal modal--active' : 'modal'}
     >
       <div className={styles.ModalContent}>
         {step === 0 && (
