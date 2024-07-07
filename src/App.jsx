@@ -13,21 +13,24 @@ import CreateEventModal from "./components/ui/CreateEventModal/CreateEventModal"
 import EventModal from "./components/ui/EventModal/EventModal";
 import { useDispatch } from "react-redux";
 import { removeUser } from "./store/slices/userSlice";
+import { useSelector } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch()
   const [events, setEvents] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
-  const [step, setStep] = useState(0);
 
+  const [step, setStep] = useState(0);
 
   const { token } = useAuth();
   const { isAuth } = useAuth();
 
+  console.log(events)
+
+
   const [createEventActive, setCreateEventActive] = useState(false);
   const [watchEventActive, setWatchEventActive] = useState(false);
 
-  console.log(events);
 
   const getEventsForPublic = async () => {
     try {
@@ -35,7 +38,7 @@ const App = () => {
 
       const data = await response.json()
       setEvents(data.data)
-      console.log(data)
+      
     
     } catch (error) {
       console.log(error);
@@ -84,10 +87,30 @@ const App = () => {
         }
       });
       const data = await response.json();
-      console.log(data);
+     
     } catch (error) {
       console.error('An error occurred:', error);
     }
+
+    getEventsForPublic()
+  };
+
+  const deleteEvent = async (id) => {
+    try {
+      const response = await fetch(`${URL}/api/events/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      console.log('DELETE', data)
+     
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+
+    getEventsForPublic()
   };
   
 
@@ -113,9 +136,14 @@ const App = () => {
     }
   };
 
+  
+
   useEffect(() => {
     getEventsForPublic()
   }, []);
+
+
+
 
   return (
     <div className="app">
@@ -155,7 +183,7 @@ const App = () => {
             )}
           </div>
         </div>
-        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} isModalActive={watchEventActive} setIsModalActive={setWatchEventActive} joinEvent={joinEvent} />
+        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} watchEventActive={watchEventActive}  joinEvent={joinEvent} deleteEvent={deleteEvent} setIsModalActive={setIsModalActive}  />
       </div>
 
       <AuthModal
@@ -182,5 +210,9 @@ const App = () => {
 };
 
 // step 1 + modal close
+// закрытие модалки с watch event
+// участники в модалке
+// если выходим, то не обновляюся красные точки, и если зайдем, тоже, а также когда присоединяюсь
+// присоед. работает с кружком
 
 export default App;

@@ -9,4 +9,3 @@ export const store = configureStore({
 })
 
 
-console.log(new Date());

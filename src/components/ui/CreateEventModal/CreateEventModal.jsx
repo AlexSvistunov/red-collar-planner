@@ -12,6 +12,8 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     participants: [1],
   });
 
+  const [meData, setMeData] = useState(null);
+
   function checkDate(date) {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -33,9 +35,6 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     }${monthInput}.${yearInput}`;
 
 
-    console.log(formattedDate);
-    console.log(formattedDateInput);
-
 
     if (formattedDateInput >= formattedDate) {
       return false;
@@ -44,7 +43,31 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     }
   }
 
-  console.log(createFields);
+  const getMe = async () => {
+    try {
+      const response = await fetch(`${URL}/api/users/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      setMeData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createdBy = (item) => {
+    if(item.owner.id === myData.id) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+
 
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
@@ -135,6 +158,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
               createEvent({
                 ...createFields,
                 prevDate: checkDate(createFields.dateStart),
+               
               })
             }
           >

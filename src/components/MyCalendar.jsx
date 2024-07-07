@@ -11,9 +11,10 @@ import { URL } from "../api/url";
 const MyCalendar = ({
   events,
   setWatchEventActive,
-  isModalActive,
+  watchEventActive,
+  joinEvent,
   setIsModalActive,
-  joinEvent
+  deleteEvent
 }) => {
   const [activeItem, setActiveItem] = useState(null)
   const {token} = useAuth()
@@ -35,7 +36,7 @@ const MyCalendar = ({
 
       const data = await response.json()
       setMyData(data)
-      console.log(data);
+    
       
     } catch (error) {
       console.log(error);
@@ -57,29 +58,18 @@ const MyCalendar = ({
         style={{ height: 900 }}
         onSelectEvent={handleSelectEvent}
         eventPropGetter={(event) => {
-          const color = event.prevDate ? "#ccc" : "black";
+          const color = event.prevDate ? "#b3b3bc" : "black";
          
-          // const isParticipant = events?.forEach(event => {
-          //   event?.participants?.forEach(participant => {
-          //     if(participant.id === myData.id) {
-          //       return true
-          //     } else {
-          //       return false
-          //     }
-          //   })
-
-          
-          // })
-
-          const isParticipant = event?.participants.some(participant => participant.id === myData.id)
+          const isParticipant = event?.participants?.some(participant => participant?.id === myData?.id)
           console.log(isParticipant)
           const size = isParticipant ? '20px' : '20px';
           const backgroundImage = isParticipant ? "url('/circle.svg')" : null
+          const background = event?.owner?.id === myData?.id ? 'red' : '#efefef'
     
         
           return {
             style: {
-              backgroundColor: "#efefef",
+              backgroundColor: background,
               padding: "2px 10px",
               color: color,
               fontSize: size,
@@ -97,10 +87,12 @@ const MyCalendar = ({
       />
 
       <EventModal
-        isModalActive={isModalActive}
-        setIsModalActive={setWatchEventActive}
+        watchEventActive={watchEventActive}
+        setWatchEventActive={setWatchEventActive}
         item={activeItem}
         joinEvent={joinEvent}
+        setIsModalActive={setIsModalActive}
+        deleteEvent={deleteEvent}
         //or item
       />
     </div>

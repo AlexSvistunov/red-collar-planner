@@ -35,8 +35,17 @@
         gap: 8px;
         background: #fafafa;
 
+        font-size: 18px;
+        color: #0d0c0c;
+       
+
        
     }
+    &InfoPrev {
+        color: #b3b3bc;
+    }
+
+ 
     &Descr {
         font-family: var(--font-family);
         font-weight: 500;
@@ -50,6 +59,23 @@
         margin-top: auto;
         align-self: center;
     }
+
+    &Login {
+        border: none;
+        background: transparent;
+        font-family: var(--second-family);
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 100%;
+        letter-spacing: -0.02em;
+        color: #0d0c0c;
+        cursor: pointer;
+    }
+
+  
+
+    
+
 }
 
 .Part {
