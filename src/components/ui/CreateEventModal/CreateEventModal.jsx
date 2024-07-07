@@ -13,6 +13,21 @@ const CreateEventModal = ({isModalActive, setIsModalActive, createEvent }) => {
     
   });
 
+  function checkDate(date) {
+    const currentDate = new Date();
+    const inputDate = new Date(date);
+
+
+
+    if (inputDate >= currentDate) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+
   console.log(createFields);
 
   return (
@@ -78,7 +93,10 @@ const CreateEventModal = ({isModalActive, setIsModalActive, createEvent }) => {
             </div>
           </div>
 
-          <button onClick={() => createEvent(createFields)}>Создать</button>
+          <button onClick={() => createEvent({
+            ...createFields,
+            prevDate: checkDate(createFields.dateStart)
+          })}>Создать</button>
         </div>
       </div>
     </div>

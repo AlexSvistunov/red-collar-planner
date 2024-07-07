@@ -73,6 +73,7 @@ const App = () => {
 
   const createEvent = async (obj) => {
     console.log(token);
+    console.log(obj);
     try {
       const response = await fetch(`${URL}/api/events`, {
         method: "POST",
