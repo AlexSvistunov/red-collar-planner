@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { URL } from "./api/url";
-import Calendar from "./components/MyCalendar";
+import MyCalendar from "./components/MyCalendar";
 import "./index.css";
 import "./App.scss";
 
@@ -19,7 +19,7 @@ const App = () => {
   const [events, setEvents] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
   const [step, setStep] = useState(0);
-  console.log(step);
+
 
   const { token } = useAuth();
   const { isAuth } = useAuth();
@@ -32,7 +32,7 @@ const App = () => {
       const response = await fetch(`${URL}/api/events/`);
       const data = await response.json();
       setEvents(data.data);
-      console.log(data);
+    
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -65,15 +65,14 @@ const App = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+    
     } catch (error) {
       console.log(error.message);
     }
   };
 
   const createEvent = async (obj) => {
-    console.log(token);
-    console.log(obj);
+ 
     try {
       const response = await fetch(`${URL}/api/events`, {
         method: "POST",
@@ -87,7 +86,7 @@ const App = () => {
 
       const data = await response.json();
       setEvents([...events, data]);
-      console.log(data);
+    
     } catch (error) {
       console.log(error.message);
     }
@@ -135,7 +134,7 @@ const App = () => {
             )}
           </div>
         </div>
-        <Calendar events={events} />
+        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} isModalActive={watchEventActive} setIsModalActive={setWatchEventActive} />
       </div>
 
       <AuthModal
@@ -153,10 +152,10 @@ const App = () => {
         createEvent={createEvent}
       />
 
-      <EventModal
+      {/* <EventModal
         isModalActive={watchEventActive}
         setIsModalActive={setWatchEventActive}
-      />
+      /> */}
     </div>
   );
 };

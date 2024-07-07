@@ -24,7 +24,6 @@ const AuthModal = ({
   })
 
 
-  console.log(registerFields)
   return (
     <div
     className={isModalActive ? 'modal modal--active' : 'modal'}

@@ -2,56 +2,55 @@ import { momentLocalizer, Calendar } from "react-big-calendar";
 import moment from "moment";
 
 // import "react-big-calendar/lib/css/react-big-calendar.css";
-import 'react-big-calendar/lib/sass/styles.scss'
-import { events } from "../events";
+import "react-big-calendar/lib/sass/styles.scss";
 
-const MyCalendar = ({events}) => {
-  // const formattedEvents = events.map(event => ({
-  //   title: event.title,
-  //   start: new Date(event.dateStart),
-  //   end: new Date(event.dateEnd),
-  // }));
+import EventModal from "./ui/EventModal/EventModal";
+import { useState } from "react";
 
+const MyCalendar = ({
+  events,
+  setWatchEventActive,
+  isModalActive,
+  setIsModalActive,
+}) => {
+  const [activeId, setActiveId] = useState(null)
+  
   const handleSelectEvent = (event) => {
-    alert(event.id)
-  }
-
-  // const eventStyleGetter  = (event, start,  end, isSelected) => {
-  //   console.log(event);
-  //   var backgroundColor = '#' + event.hexColor;
-  //   var style = {
-  //       backgroundColor: backgroundColor,
-  //       borderRadius: '0px',
-  //       opacity: 0.8,
-  //       color: 'black',
-  //       border: '0px',
-  //       display: 'block'
-  //   };
-  //   return {
-  //       style: style
-  //   };
-  // } 
+    setWatchEventActive(true);
+    setActiveId(event.id)
+  };
 
   const localizer = momentLocalizer(moment);
   return (
-    <div style={{padding: '20px'}}>
+    <div style={{ padding: "20px" }}>
       <Calendar
         localizer={localizer}
-        // events={[
-        //   {title: 'event1', start: new Date(), end: new Date()},
-        //   {title: 'event2', start: new Date(), end: new Date()},
-        // ]}
-
         events={events}
-          startAccessor="dateStart"
-          endAccessor="dateEnd"
+        startAccessor="dateStart"
+        endAccessor="dateEnd"
         style={{ height: 900 }}
         onSelectEvent={handleSelectEvent}
         eventPropGetter={(event) => {
-          console.log(event);
-          const color = event.prevDate ? '#ccc' : 'black';
-          return { style: { backgroundColor: '#efefef', padding: '2px 6px', color: color, fontSize: '20px', fontWeight: 500, borderRadius: '8px', margin: '2px 0' } }
+          const color = event.prevDate ? "#ccc" : "black";
+          return {
+            style: {
+              backgroundColor: "#efefef",
+              padding: "2px 6px",
+              color: color,
+              fontSize: "20px",
+              fontWeight: 500,
+              borderRadius: "8px",
+              margin: "2px 0",
+            },
+          };
         }}
+      />
+
+      <EventModal
+        isModalActive={isModalActive}
+        setIsModalActive={setWatchEventActive}
+        id={activeId}
+        //or item
       />
     </div>
   );

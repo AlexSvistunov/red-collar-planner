@@ -1,9 +1,61 @@
+import { useEffect } from "react";
+import { URL } from "../../../api/url";
 import { useAuth } from "../../../hooks/useAuth";
 import styles from "./EventModal.module.scss";
 
-const EventModal = ({isModalActive, setIsModalActive}) => {
-  const { isAuth } = useAuth();
-  console.log(isAuth);
+const EventModal = ({isModalActive, setIsModalActive, id}) => {
+  const { isAuth, token } = useAuth();
+
+  console.log(id);
+
+  const getEventsForPublic = async () => {
+    try {
+      const response = await fetch(`${URL}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`)
+
+      const data = await response.json()
+    
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getEventsForAuth = async () => {
+    try {
+      const response = await fetch(`${URL}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      const data = await response.json()
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getMe = async () => {
+    try {
+      const response = await fetch(`${URL}/api/users/me`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      const data = await response.json()
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getEventsForPublic()
+    getEventsForAuth()
+    getMe()
+  }, [])
+
   return (
     <div className={isModalActive ? 'modal modal--active' : 'modal'}>
       <div className={styles.Content}>

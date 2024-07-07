@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./CreateEventModal.module.scss";
 
-const CreateEventModal = ({isModalActive, setIsModalActive, createEvent }) => {
+const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   const [createFields, setCreateFields] = useState({
     title: "",
     description: "",
@@ -10,31 +10,50 @@ const CreateEventModal = ({isModalActive, setIsModalActive, createEvent }) => {
     time: "",
     location: "",
     participants: [1],
-    
   });
 
   function checkDate(date) {
     const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; 
+    const day = currentDate.getDate();
+
+    const formattedDate = `${day < 10 ? "0" : ""}${day}.${
+      month < 10 ? "0" : ""
+    }${month}.${year}`;
+
+
     const inputDate = new Date(date);
+    const yearInput = inputDate.getFullYear();
+    const monthInput = inputDate.getMonth() + 1; 
+    const dayInput = inputDate.getDate();
+
+    const formattedDateInput = `${dayInput < 10 ? "0" : ""}${dayInput}.${
+      monthInput < 10 ? "0" : ""
+    }${monthInput}.${yearInput}`;
 
 
+    console.log(formattedDate);
+    console.log(formattedDateInput);
 
-    if (inputDate >= currentDate) {
-        return false;
+
+    if (formattedDateInput >= formattedDate) {
+      return false;
     } else {
-        return true;
+      return true;
     }
-}
-
-
+  }
 
   console.log(createFields);
 
   return (
-    <div className={isModalActive ? 'modal modal--active' : 'modal'}>
+    <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
         <div className={styles.ModalContentWrapper}>
-          <button className={styles.ModalContentClose} onClick={() => setIsModalActive(false)}>
+          <button
+            className={styles.ModalContentClose}
+            onClick={() => setIsModalActive(false)}
+          >
             <svg
               width="24"
               height="24"
@@ -54,49 +73,73 @@ const CreateEventModal = ({isModalActive, setIsModalActive, createEvent }) => {
 
           <div className={styles.ContentWrapper}>
             <div className={styles.ContentWrapperLeft}>
-              <input 
-                placeholder="Название" 
+              <input
+                placeholder="Название"
                 value={createFields.title}
-                onChange={(e) => setCreateFields({ ...createFields, title: e.target.value })}
+                onChange={(e) =>
+                  setCreateFields({ ...createFields, title: e.target.value })
+                }
               ></input>
-              <textarea 
-                placeholder="Описание" 
+              <textarea
+                placeholder="Описание"
                 value={createFields.description}
-                onChange={(e) => setCreateFields({ ...createFields, description: e.target.value })}
+                onChange={(e) =>
+                  setCreateFields({
+                    ...createFields,
+                    description: e.target.value,
+                  })
+                }
               ></textarea>
               <div>Участники</div>
             </div>
             <div className={styles.ContentWrapperRight}>
-              <input 
-                type="date" 
-                value={createFields.dateStart} 
-                onChange={(e) => setCreateFields({ ...createFields, dateStart: e.target.value })}
+              <input
+                type="date"
+                value={createFields.dateStart}
+                onChange={(e) =>
+                  setCreateFields({
+                    ...createFields,
+                    dateStart: e.target.value,
+                  })
+                }
               ></input>
-              <input 
-                type="date" 
-                value={createFields.dateEnd} 
-                onChange={(e) => setCreateFields({ ...createFields, dateEnd: e.target.value })}
+              <input
+                type="date"
+                value={createFields.dateEnd}
+                onChange={(e) =>
+                  setCreateFields({ ...createFields, dateEnd: e.target.value })
+                }
               ></input>
-              <input 
-                type="text" 
-                placeholder="Время" 
-                value={createFields.time} 
-                onChange={(e) => setCreateFields({ ...createFields, time: e.target.value })}
+              <input
+                type="text"
+                placeholder="Время"
+                value={createFields.time}
+                onChange={(e) =>
+                  setCreateFields({ ...createFields, time: e.target.value })
+                }
               ></input>
-              <input 
-                type="text" 
-                placeholder="Место проведения" 
-                value={createFields.location} 
-                onChange={(e) => setCreateFields({ ...createFields, location: e.target.value })}
+              <input
+                type="text"
+                placeholder="Место проведения"
+                value={createFields.location}
+                onChange={(e) =>
+                  setCreateFields({ ...createFields, location: e.target.value })
+                }
               ></input>
               <div>Организатор</div>
             </div>
           </div>
 
-          <button onClick={() => createEvent({
-            ...createFields,
-            prevDate: checkDate(createFields.dateStart)
-          })}>Создать</button>
+          <button
+            onClick={() =>
+              createEvent({
+                ...createFields,
+                prevDate: checkDate(createFields.dateStart),
+              })
+            }
+          >
+            Создать
+          </button>
         </div>
       </div>
     </div>
