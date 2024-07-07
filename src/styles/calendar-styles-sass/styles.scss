@@ -115,8 +115,58 @@
   background-color: $today-highlight-bg;
 }
 
+
+
 @import './toolbar';
 @import './event';
 @import './month';
 @import './agenda';
 @import './time-grid';
+
+.rbc-btn-group:last-child {
+  display: none;
+}
+
+
+.rbc-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.rbc-btn-group button:first-child {
+  display: none;
+}
+
+.rbc-btn-group button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/arrow-left.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 64px;
+  height: 64px;
+  background-color: #efefef;
+  font-size: 0;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+}
+
+.rbc-btn-group button:nth-child(3) {
+  background-image: url('/arrow-right.svg');
+}
+
+.rbc-toolbar-label {
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 120%;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #0d0c0c;
+}
+

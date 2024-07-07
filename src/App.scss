@@ -16,6 +16,49 @@
     align-items: center;
     gap: 134px;
   }
+
+  &__header-block {
+    display: flex;
+    align-items: center;
+    gap: 33px;
+  }
+
+  &__header-avatar {
+    position: relative;
+
+    &:hover {
+      .app__header-avatar-btn {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  &__header-avatar-btn {
+    position: absolute;
+    bottom: -30px;
+    left: 10px;
+    opacity: 0;
+    visibility: hidden;
+    background-color: #0d0c0c;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.button {
+  padding: 18px 30px;
+  font-size: 18px;
+  background: #0d0c0c;
+  color: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal {

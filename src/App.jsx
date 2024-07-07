@@ -11,8 +11,11 @@ import AuthModal from "./components/ui/AuthModal/AuthModal";
 import { useAuth } from "./hooks/useAuth";
 import CreateEventModal from "./components/ui/CreateEventModal/CreateEventModal";
 import EventModal from "./components/ui/EventModal/EventModal";
+import { useDispatch } from "react-redux";
+import { removeUser } from "./store/slices/userSlice";
 
 const App = () => {
+  const dispatch = useDispatch()
   const [events, setEvents] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
   const [step, setStep] = useState(0);
@@ -23,7 +26,6 @@ const App = () => {
 
   const [createEventActive, setCreateEventActive] = useState(false);
   const [watchEventActive, setWatchEventActive] = useState(false);
-
 
   const fetchData = async () => {
     try {
@@ -70,7 +72,6 @@ const App = () => {
   };
 
   const createEvent = async (obj) => {
-    
     console.log(token);
     try {
       const response = await fetch(`${URL}/api/events`, {
@@ -84,10 +85,7 @@ const App = () => {
       });
 
       const data = await response.json();
-      setEvents([
-        ...events,
-        data
-      ])
+      setEvents([...events, data]);
       console.log(data);
     } catch (error) {
       console.log(error.message);
@@ -108,25 +106,31 @@ const App = () => {
           </div>
 
           <div className="app__header-right">
-            <div className="app__header-month">
-              <span>Сентябрь</span>
-              <button>left</button>
-              <button>right</button>
-            </div>
-
             {/* <button className="app__header-login">Войти</button> */}
             {/* <Button>Войти</Button> */}
 
             {isAuth ? (
-              <div>
-                <button onClick={() => setCreateEventActive(true)}>
+              <div className="app__header-block">
+                <button
+                  className="button"
+                  onClick={() => setCreateEventActive(true)}
+                >
                   <img src="/add.svg" alt="" />
                 </button>
 
-                <img src="/avatar.svg" alt="" />
+                <div className="app__header-avatar">
+                  <img
+                    className=""
+                    src="/avatar.svg"
+                    alt=""
+                  />
+                  <button className="app__header-avatar-btn" onClick={() => dispatch(removeUser())}>Выйти</button>
+                </div>
               </div>
             ) : (
-              <button onClick={() => setIsModalActive(true)}>Войти</button>
+              <button className="button" onClick={() => setIsModalActive(true)}>
+                Войти
+              </button>
             )}
           </div>
         </div>
@@ -148,7 +152,10 @@ const App = () => {
         createEvent={createEvent}
       />
 
-      <EventModal isModalActive={watchEventActive} setIsModalActive={setWatchEventActive}/>
+      <EventModal
+        isModalActive={watchEventActive}
+        setIsModalActive={setWatchEventActive}
+      />
     </div>
   );
 };
