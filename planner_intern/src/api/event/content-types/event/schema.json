@@ -52,6 +52,9 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "prevDate": {
+      "type": "boolean"
     }
   }
 }
