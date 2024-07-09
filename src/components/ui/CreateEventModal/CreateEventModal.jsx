@@ -157,7 +157,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
             onClick={() =>
               createEvent({
                 ...createFields,
-                prevDate: checkDate(createFields.dateStart),
+              
                
               })
             }

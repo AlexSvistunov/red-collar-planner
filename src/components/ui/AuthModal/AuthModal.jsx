@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styles from "./AuthModal.module.scss";
 
-import Button from "../Button/Button";
 import { useDispatch } from "react-redux";
 import { logIn, register } from "../../../store/slices/userSlice";
 
@@ -18,30 +17,27 @@ const AuthModal = ({
   const [passwordValue, setPasswordValue] = useState("");
 
   const [registerFields, setRegisterFields] = useState({
-    name: '',
-    password: '',
-    repeatedPassword: '',
-  })
-
+    name: "",
+    password: "",
+    repeatedPassword: "",
+  });
 
   return (
-    <div
-    className={isModalActive ? 'modal modal--active' : 'modal'}
-    >
+    <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
         {step === 0 && (
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Вход</h2>
             <input
-              className={styles.ModalContentInput}
+              className={[styles.ModalContentInput, "input"].join(" ")}
               value={emailValue}
               onChange={(e) => setEmailValue(e.target.value)}
-              placeholder="email"
+              placeholder="Email"
             ></input>
 
             {/* <Button>Далее</Button> */}
             <button
-              className={styles.ModalContentNextBtn}
+              className={[styles.ModalContentNextBtn, "button"].join(" ")}
               onClick={() => userExist(emailValue)}
             >
               Далее
@@ -73,15 +69,14 @@ const AuthModal = ({
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Вход</h2>
             <input
-              className={styles.ModalContentInput}
+              className={[styles.ModalContentInput, "input"].join(" ")}
               value={passwordValue}
               onChange={(e) => setPasswordValue(e.target.value)}
-              placeholder="пароль"
+              placeholder="Пароль"
             ></input>
 
-            {/* <Button>Далее</Button> */}
             <button
-              className={styles.ModalContentNextBtn}
+              className={[styles.ModalContentNextBtn, "button"].join(" ")}
               // onClick={() => loginUser(emailValue, passwordValue)}
               onClick={() =>
                 dispatch(
@@ -94,7 +89,7 @@ const AuthModal = ({
               Войти
             </button>
 
-            <button className={styles.ModalContentClose}>
+            <button className={styles.ModalContentClose} onClick={() => setIsModalActive(false)}>
               <svg
                 width="24"
                 height="24"
@@ -116,23 +111,62 @@ const AuthModal = ({
         {step === 2 && (
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Регистрация</h2>
-            <input type="text" placeholder="Имя" value={registerFields.name} onChange={e => setRegisterFields({
-              ...registerFields,
-              name: e.target.value
-            })}/>
-            <input type="text" placeholder="Пароль"  value={registerFields.password} onChange={e => setRegisterFields({
-              ...registerFields,
-              password: e.target.value
-            })}/>
-            <input type="text" placeholder="Повторить пароль" value={registerFields.repeatedPassword} onChange={e => setRegisterFields({
-              ...registerFields,
-              repeatedPassword: e.target.value
-            })}/>
-           <button onClick={() => dispatch(register({userName: registerFields.name, email: emailValue, password: registerFields.password})).then(() => {
-            setIsModalActive(false)
-           })}>Зарегистрироваться</button>
+            <div className={styles.ModalContentFields}>
+              <input
+                className="input"
+                type="text"
+                placeholder="Ваше имя"
+                value={registerFields.name}
+                onChange={(e) =>
+                  setRegisterFields({
+                    ...registerFields,
+                    name: e.target.value,
+                  })
+                }
+              />
+              <input
+                className="input"
+                type="text"
+                placeholder="Пароль"
+                value={registerFields.password}
+                onChange={(e) =>
+                  setRegisterFields({
+                    ...registerFields,
+                    password: e.target.value,
+                  })
+                }
+              />
+              <input
+                className="input"
+                type="text"
+                placeholder="Повторить пароль"
+                value={registerFields.repeatedPassword}
+                onChange={(e) =>
+                  setRegisterFields({
+                    ...registerFields,
+                    repeatedPassword: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <button
+              className="button"
+              onClick={() =>
+                dispatch(
+                  register({
+                    userName: registerFields.name,
+                    email: emailValue,
+                    password: registerFields.password,
+                  })
+                ).then(() => {
+                  setIsModalActive(false);
+                })
+              }
+            >
+              Зарегистрироваться
+            </button>
 
-            <button className={styles.ModalContentClose}>
+            <button className={styles.ModalContentClose}  onClick={() => setIsModalActive(false)}>
               <svg
                 width="24"
                 height="24"

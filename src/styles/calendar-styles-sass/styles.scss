@@ -214,3 +214,22 @@
   text-align: right;
   color: #000;
 }
+
+.event-passed {
+  background: #efefef;
+  color: #b3b3bc;
+}
+
+.event-future {
+  background: #efefef;
+  color: #0d0c0c;
+}
+
+// .event {
+//   font-family: var(--font-family);
+//   font-weight: 500;
+//   font-size: 20px;
+//   line-height: 140%;
+//   letter-spacing: -0.02em;
+//   text-align: right;
+// }

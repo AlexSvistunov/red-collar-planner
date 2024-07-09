@@ -52,11 +52,10 @@ export const register = createAsyncThunk(
 );
 
 const initialState = {
-  token: localStorage.getItem("token")?.length
+  token: localStorage.getItem("token") && localStorage.getItem('token') !== 'undefined'
     ? localStorage.getItem("token")
     : null,
 };
-
 const userSlice = createSlice({
   name: "user",
   initialState,

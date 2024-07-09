@@ -97,8 +97,8 @@ const App = () => {
 
   const deleteEvent = async (id) => {
     try {
-      const response = await fetch(`${URL}/api/events/${id}`, {
-        method: 'DELETE',
+      const response = await fetch(`${URL}/api/events/${id}/leave`, {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -214,5 +214,6 @@ const App = () => {
 // участники в модалке
 // если выходим, то не обновляюся красные точки, и если зайдем, тоже, а также когда присоединяюсь
 // присоед. работает с кружком
+
 
 export default App;

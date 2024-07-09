@@ -14,9 +14,9 @@ const EventModal = ({
   const { isAuth, token } = useAuth();
   const [meData, setMeData] = useState(null);
 
-  console.log(meData);
 
-  console.log(item);
+
+
 
   const getEventsForPublic = async () => {
     try {
@@ -75,6 +75,25 @@ const EventModal = ({
       <div className={styles.Content}>
         {item && (
           <div className={styles.ContentWrapper}>
+             <button
+            className={styles.ContentClose}
+            onClick={() => setWatchEventActive(false)}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M23.3139 3.51472L20.4855 0.686291L12.0002 9.17157L3.51495 0.686291L0.686523 3.51472L9.1718 12L0.686523 20.4853L3.51495 23.3137L12.0002 14.8284L20.4855 23.3137L23.3139 20.4853L14.8287 12L23.3139 3.51472Z"
+                fill="#B3B3BC"
+              />
+            </svg>
+          </button>
             <h2 className={styles.ContentTitle}>{item.title}</h2>
 
             <div className={styles.ContentBlock}>

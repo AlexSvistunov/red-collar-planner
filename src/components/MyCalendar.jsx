@@ -65,14 +65,16 @@ const MyCalendar = ({
           const size = isParticipant ? '20px' : '20px';
           const backgroundImage = isParticipant ? "url('/circle.svg')" : null
           const background = event?.owner?.id === myData?.id ? 'red' : '#efefef'
-    
+
+          console.log(event)
+          console.log(event.dateEnd > new Date().toISOString())
+
+          const isEventPassed = event.dateStart > new Date().toISOString() ? false : true
+
         
           return {
             style: {
-              backgroundColor: background,
-              padding: "2px 10px",
-              color: color,
-              fontSize: size,
+              padding: "7px 10px",
               fontWeight: 500,
               borderRadius: "8px",
               margin: "2px 0",
@@ -80,8 +82,10 @@ const MyCalendar = ({
               backgroundSize: '8px 9px',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'left'
-              
+          
             },
+
+            className: isEventPassed ? 'event-passed' : 'event-future',
           };
         }}
       />
