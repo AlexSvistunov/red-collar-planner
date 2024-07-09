@@ -9,3 +9,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <App />
   </Provider>
 );
+
+// eventModal add participants, gallery
+// auth validation
+// create validation
+// create select
+// create files
+// create calendar
+// create success & !success
+// decomposion
+// improve code
+
+// some optional features

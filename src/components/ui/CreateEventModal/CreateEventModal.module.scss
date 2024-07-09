@@ -16,23 +16,22 @@
 
   &Content {
     position: relative;
-    max-width: 600px;
+    max-width: 1076px;
     width: 100%;
     padding: 40px;
     background: #fff;
     min-height: 510px;
     border-radius: 64px;
     display: flex;
-    justify-content: center;
   }
 
   &ContentWrapper {
     flex: 1 1 auto;
-    max-width: 346px;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    // justify-content: center;
+    // align-items: center;
   }
 
   &ContentTitle {
@@ -73,12 +72,21 @@
 
 .ContentWrapper {
   display: flex;
+  gap: 22px;
 
   &Left {
-
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 580px;
+    width: 100%;
   }
 
   &Right {
-    
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    max-width: 346px;
   }
 }

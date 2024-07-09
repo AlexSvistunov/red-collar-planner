@@ -97,6 +97,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
           <div className={styles.ContentWrapper}>
             <div className={styles.ContentWrapperLeft}>
               <input
+                className="input-base"
                 placeholder="Название"
                 value={createFields.title}
                 onChange={(e) =>
@@ -105,6 +106,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
               ></input>
               <textarea
                 placeholder="Описание"
+                 className="input-base"
                 value={createFields.description}
                 onChange={(e) =>
                   setCreateFields({
@@ -134,6 +136,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 }
               ></input>
               <input
+               className="input-base"
                 type="text"
                 placeholder="Время"
                 value={createFields.time}
@@ -142,6 +145,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 }
               ></input>
               <input
+               className="input-base"
                 type="text"
                 placeholder="Место проведения"
                 value={createFields.location}
@@ -154,6 +158,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
           </div>
 
           <button
+          className="button"
             onClick={() =>
               createEvent({
                 ...createFields,

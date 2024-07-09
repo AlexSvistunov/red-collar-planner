@@ -127,8 +127,7 @@ const EventModal = ({
                 }
               >
 
-                
-
+  
                <div className={styles.ContentInfoItems}>
                <span className={styles.ContentInfoItem}>{weekDate}</span>
                 <span className={styles.ContentInfoItem}>{day} {month}</span>
@@ -153,54 +152,51 @@ const EventModal = ({
               <h3 className={styles.GalleryTitle}></h3>
               {/* gallery */}
             </div>
-
             {isAuth ? 
-              isEventPassed ? null  : 
-              {
-                item?.participants.some(participant => participant.id === meData.id) ? (
-                  <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "auto",
-                  }}
-                >
-                  <button
+    isEventPassed ? null  : (
+        item?.participants.some(participant => participant.id === meData.id) ? (
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "auto",
+            }}>
+                <button
                     onClick={() => {
-                      deleteEvent(item.id);
-                      setWatchEventActive(false);
+                        deleteEvent(item.id);
+                        setWatchEventActive(false);
                     }}
                     className={styles.ContentLogin}
-                  >
+                >
                     Вы присоединились к событию. Если передумали, можете{" "}
                     <span style={{ color: "#f51b1b" }}>отменить участие.</span>
-                  </button>
-                </div>
-                ) : (
-                  <button
-                    onClick={() => {
-                      joinEvent(item.id);
-                      setWatchEventActive(false);
-                    }}
-                    className={[styles.ContentJoin, "button"].join(" ")}
-                  >
-                    Присоединиться к событию
-                  </button>
-                )
-              }
-
-            : 
-              isEventPassed ? null : <button
-              onClick={() => {
+                </button>
+            </div>
+        ) : (
+            <button
+                onClick={() => {
+                    joinEvent(item.id);
+                    setWatchEventActive(false);
+                }}
+                className={[styles.ContentJoin, "button"].join(" ")}
+            >
+                Присоединиться к событию
+            </button>
+        )
+    )
+    :
+    isEventPassed ? null : (
+        <button
+            onClick={() => {
                 setWatchEventActive(false);
                 setIsModalActive(true);
-              }}
-              className={styles.ContentLogin}
-            >
-              <span style={{ color: "#f51b1b" }}>Войдите </span>, чтобы
-              присоединиться к событию
-            </button>
-            }
+            }}
+            className={styles.ContentLogin}
+        >
+            <span style={{ color: "#f51b1b" }}>Войдите </span>, чтобы
+            присоединиться к событию
+        </button>
+    )
+}
 
             {/* {isAuth ? (
               item.participants.some(
