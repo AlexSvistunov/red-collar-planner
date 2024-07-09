@@ -12,12 +12,13 @@
         flex: 1 1 auto;
         min-height: 100%;
         display: flex;
+        gap: 40px;
         flex-direction: column;
       
     }
     &Title {
         margin: 0;
-        margin-bottom: 40px;
+
         font-family: var(--second-family);
         font-weight: 500;
         font-size: 36px;
@@ -84,10 +85,11 @@
     }
 
     &Login {
+        margin-top: auto;
         border: none;
         background: transparent;
         font-family: var(--second-family);
-        font-weight: 400;
+        font-weight: 500;
         font-size: 18px;
         line-height: 100%;
         letter-spacing: -0.02em;
@@ -116,7 +118,7 @@
         background: #fafafa;
         max-width: fit-content;
         align-self: center;
-        margin-bottom: 24px;
+
        
       }
 
@@ -127,15 +129,45 @@
 }
 
 .Part {
-    &Title {
-    }
+   h3.PartTitle {
+    margin-bottom: 24px;
+   }
     &List {
+        display: flex;
+        align-items: center;
+        gap: 48px;
     }
     &Item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        & span {
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 100%;
+            letter-spacing: -0.02em;
+            color: #0d0c0c;
+        }
     }
 }
 
 .Gallery {
+    &Head {
+        margin-bottom: 32px;
+    }
+
     &Title {
+    }
+
+    &Photos {
+        // display: flex;
+        // flex-wrap: wrap;
+        // gap: 16px;
+
+    }
+
+    &Photo {
+        border-radius: 24px;
     }
 }

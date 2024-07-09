@@ -4,6 +4,9 @@ import MyCalendar from "./components/MyCalendar";
 import "./index.css";
 import "./App.scss";
 
+
+// import { Swiper, SwiperSlide } from "swiper/react";
+
 import "./styles/calendar-styles-sass/styles.scss";
 import Button from "./components/ui/Button/Button";
 import AuthModal from "./components/ui/AuthModal/AuthModal";
@@ -14,6 +17,7 @@ import EventModal from "./components/ui/EventModal/EventModal";
 import { useDispatch } from "react-redux";
 import { removeUser } from "./store/slices/userSlice";
 import { useSelector } from "react-redux";
+
 
 const App = () => {
   const dispatch = useDispatch()
@@ -194,6 +198,12 @@ const App = () => {
         setStep={setStep}
         loginUser={loginUser}
       ></AuthModal>
+
+      {/* <Swiper>
+        <SwiperSlide>1</SwiperSlide>
+        <SwiperSlide>2</SwiperSlide>
+        <SwiperSlide>3</SwiperSlide>
+      </Swiper> */}
 
       <CreateEventModal
         isModalActive={createEventActive}
