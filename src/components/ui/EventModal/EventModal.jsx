@@ -17,7 +17,6 @@ const EventModal = ({
   console.log(item)
 
 
-
   const date = new Date(item?.dateStart);
   const days = [
     "Воскресенье",
