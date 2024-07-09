@@ -2,7 +2,7 @@ import { momentLocalizer, Calendar } from "react-big-calendar";
 import moment from "moment";
 
 // import "react-big-calendar/lib/css/react-big-calendar.css";
-import "react-big-calendar/lib/sass/styles.scss";
+// import "react-big-calendar/lib/sass/styles.scss";
 
 import EventModal from "./ui/EventModal/EventModal";
 import { useEffect, useState } from "react";
@@ -61,13 +61,13 @@ const MyCalendar = ({
           const color = event.prevDate ? "#b3b3bc" : "black";
          
           const isParticipant = event?.participants?.some(participant => participant?.id === myData?.id)
-          console.log(isParticipant)
+    
           const size = isParticipant ? '20px' : '20px';
           const backgroundImage = isParticipant ? "url('/circle.svg')" : null
           const background = event?.owner?.id === myData?.id ? 'red' : '#efefef'
 
-          console.log(event)
-          console.log(event.dateEnd > new Date().toISOString())
+          // console.log(event)
+          // console.log(event.dateEnd > new Date().toISOString())
 
           const isEventPassed = event.dateStart > new Date().toISOString() ? false : true
 
