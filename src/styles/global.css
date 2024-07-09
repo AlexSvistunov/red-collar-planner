@@ -43,6 +43,21 @@ img {
   display: flex;
 }
 
+.mySlide {
+  width: auto !important;
+}
+
+.swiper .swiper-pagination-bullet {
+  border-radius: 4px;
+  width: 32px;
+  height: 4px;
+  background: #efefef;
+  
+}
+
+.swiper .swiper-pagination-bullet-active {
+  background: #f51b1b;
+}
 // .swiper .swiper-slide {
 //   width: auto;
 //   flex-shrink: 0;

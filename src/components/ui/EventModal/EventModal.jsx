@@ -180,11 +180,13 @@ const EventModal = ({
                 <div className={styles.GalleryPhotos}>
                   <Swiper
                     modules={[Pagination]}
+                    slidesPerView={'auto'}
                     pagination={{ clickable: true }}
+                    spaceBetween={16}
                     
                   >
                     {item?.photos?.map((photo) => (
-                      <SwiperSlide>
+                      <SwiperSlide className="mySlide">
                         <img
                           className={styles.GalleryPhoto}
                           src={`/planner_intern-main/public/${photo?.url}`}
