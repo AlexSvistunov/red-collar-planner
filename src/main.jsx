@@ -22,4 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
 // some optional features
 
-// modal view
+// modal view overflow
+// swiper pagination, navigation out of the swiper
+
+// wrong password (rejected, fullfilled)

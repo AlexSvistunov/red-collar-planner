@@ -17,6 +17,7 @@ import EventModal from "./components/ui/EventModal/EventModal";
 import { useDispatch } from "react-redux";
 import { removeUser } from "./store/slices/userSlice";
 import { useSelector } from "react-redux";
+import TestForm from "./components/TestForm";
 
 
 const App = () => {
@@ -147,8 +148,6 @@ const App = () => {
   }, []);
 
 
-
-
   return (
     <div className="app">
       <div className="container">
@@ -210,6 +209,8 @@ const App = () => {
         setIsModalActive={setCreateEventActive}
         createEvent={createEvent}
       />
+
+      {/* <TestForm/> */}
 
       {/* <EventModal
         isModalActive={watchEventActive}

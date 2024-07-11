@@ -3,6 +3,9 @@ import styles from "./AuthModal.module.scss";
 
 import { useDispatch } from "react-redux";
 import { logIn, register } from "../../../store/slices/userSlice";
+import { useForm } from "react-hook-form";
+import LoginAuthStep from "../../LoginAuthStep/LoginAuthStep";
+import PasswordAuthStep from "../../PasswordAuthStep/PasswordAuthStep";
 
 const AuthModal = ({
   isModalActive,
@@ -22,26 +25,54 @@ const AuthModal = ({
     repeatedPassword: "",
   });
 
+
+  const loginForm = useForm()
+  const passwordForm = useForm()
+  const registerForm = useForm()
+
+  const submit = (data) => {
+    // console.log(loginForm.watch('login'))
+    // console.log(passwordForm);
+    console.log(data)
+    if(step === 0) {
+      userExist(data.login)
+    }
+
+    if(step === 1) {
+      dispatch(
+        logIn({ email: loginForm.watch('login'), password: passwordForm.watch('password') })
+      ).then((data) => {
+        console.log(data)
+        setIsModalActive(false);
+      })
+    }
+  }
+
+
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
         {step === 0 && (
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Вход</h2>
-            <input
+
+            <LoginAuthStep loginForm={loginForm} submit={submit}/>
+
+           
+            {/* <input
               className={[styles.ModalContentInput, "input"].join(" ")}
               value={emailValue}
               onChange={(e) => setEmailValue(e.target.value)}
               placeholder="Email"
             ></input>
 
-            {/* <Button>Далее</Button> */}
+
             <button
               className={[styles.ModalContentNextBtn, "button"].join(" ")}
               onClick={() => userExist(emailValue)}
             >
               Далее
-            </button>
+            </button> */}
 
             <button
               className={styles.ModalContentClose}
@@ -68,7 +99,10 @@ const AuthModal = ({
         {step === 1 && (
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Вход</h2>
-            <input
+
+            <PasswordAuthStep passwordForm={passwordForm} submit={submit}/>
+
+            {/* <input
               className={[styles.ModalContentInput, "input"].join(" ")}
               value={passwordValue}
               onChange={(e) => setPasswordValue(e.target.value)}
@@ -87,7 +121,8 @@ const AuthModal = ({
               }
             >
               Войти
-            </button>
+            </button> */}
+           
 
             <button className={styles.ModalContentClose} onClick={() => setIsModalActive(false)}>
               <svg
