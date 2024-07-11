@@ -69,6 +69,18 @@ const RegisterAuthStep = ({ registerForm, submit }) => {
               placeholder="Повторить пароль"
               {...registerForm.register("repeatedPassword", {
                 required: "Обязательное поле",
+                validate: () => {
+                  const password = registerForm.watch('password')
+                  const repeatedPassword = registerForm.watch('repeatedPassword')
+
+                  if(password !== repeatedPassword) {
+                    return 'Пароли не совпадают'
+                  }
+
+                  console.log(password)
+                  console.log(repeatedPassword)
+
+                }
               })}
             />
 
