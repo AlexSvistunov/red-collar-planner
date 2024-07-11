@@ -67,6 +67,8 @@ const RegisterAuthStep = ({ registerForm, submit }) => {
               className={[styles.FormInput, "input"].join(" ")}
               type={passwordShown ? "text" : "password"}
               placeholder="Повторить пароль"
+              // {outline: '1px solid red', border: '1px solid transparent'}
+              style={registerForm.getFieldState('repeatedPassword').error && {border: '1px solid red', outline: '1px solid red'}}
               {...registerForm.register("repeatedPassword", {
                 required: "Обязательное поле",
                 validate: () => {

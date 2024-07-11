@@ -32,3 +32,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // auth events update
 
 // focus placeholder
+// green border
+// disabled btn validation

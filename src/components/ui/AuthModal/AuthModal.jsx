@@ -58,6 +58,8 @@ const AuthModal = ({
         }
       });
     }
+
+    console.log(registerForm.getFieldState('repeatedPassword'))
   };
 
   return (
