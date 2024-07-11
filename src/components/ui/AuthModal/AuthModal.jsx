@@ -25,29 +25,40 @@ const AuthModal = ({
     repeatedPassword: "",
   });
 
-
-  const loginForm = useForm()
-  const passwordForm = useForm()
-  const registerForm = useForm()
+  const loginForm = useForm();
+  const passwordForm = useForm();
+  const registerForm = useForm();
 
   const submit = (data) => {
     // console.log(loginForm.watch('login'))
     // console.log(passwordForm);
-    console.log(data)
-    if(step === 0) {
-      userExist(data.login)
+    console.log(data);
+    if (step === 0) {
+      userExist(data.login);
     }
 
-    if(step === 1) {
+    if (step === 1) {
       dispatch(
-        logIn({ email: loginForm.watch('login'), password: passwordForm.watch('password') })
+        logIn({
+          email: loginForm.watch("login"),
+          password: passwordForm.watch("password"),
+        })
       ).then((data) => {
-        console.log(data)
-        setIsModalActive(false);
-      })
+        console.log(data);
+        if (data?.payload?.error) {
+          console.log("ERROR");
+          passwordForm.setError("password", {
+            type: "manual",
+            message: "Неверный пароль. Пожалуйста, попробуйте снова.",
+          });
+          return;
+        } else {
+          setIsModalActive(false);
+          setStep(0)
+        }
+      });
     }
-  }
-
+  };
 
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
@@ -56,9 +67,8 @@ const AuthModal = ({
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Вход</h2>
 
-            <LoginAuthStep loginForm={loginForm} submit={submit}/>
+            <LoginAuthStep loginForm={loginForm} submit={submit} />
 
-           
             {/* <input
               className={[styles.ModalContentInput, "input"].join(" ")}
               value={emailValue}
@@ -100,7 +110,7 @@ const AuthModal = ({
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Вход</h2>
 
-            <PasswordAuthStep passwordForm={passwordForm} submit={submit}/>
+            <PasswordAuthStep passwordForm={passwordForm} submit={submit} />
 
             {/* <input
               className={[styles.ModalContentInput, "input"].join(" ")}
@@ -122,9 +132,11 @@ const AuthModal = ({
             >
               Войти
             </button> */}
-           
 
-            <button className={styles.ModalContentClose} onClick={() => setIsModalActive(false)}>
+            <button
+              className={styles.ModalContentClose}
+              onClick={() => setIsModalActive(false)}
+            >
               <svg
                 width="24"
                 height="24"
@@ -201,7 +213,10 @@ const AuthModal = ({
               Зарегистрироваться
             </button>
 
-            <button className={styles.ModalContentClose}  onClick={() => setIsModalActive(false)}>
+            <button
+              className={styles.ModalContentClose}
+              onClick={() => setIsModalActive(false)}
+            >
               <svg
                 width="24"
                 height="24"

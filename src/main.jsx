@@ -26,3 +26,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // swiper pagination, navigation out of the swiper
 
 // wrong password (rejected, fullfilled)
+// clear steps after an action
+// clear states(inputValue)
