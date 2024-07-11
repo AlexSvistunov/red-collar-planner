@@ -2,16 +2,14 @@ import { useForm } from "react-hook-form";
 import styles from "./LoginAuthStep.module.scss";
 
 const LoginAuthStep = ({ loginForm, submit }) => {
-  // const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-  // const email = watch('login')
-  // console.log(email)
 
 
   return (
     <form className={styles.Form} onSubmit={loginForm.handleSubmit(submit)}>
       <div className={styles.FormInputBox}>
         <input
+        placeholder="E-mail"
           className={[styles.FormInput, "input"].join(" ")}
           {...loginForm.register("login", {
             required: "Обязательное поле",

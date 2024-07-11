@@ -6,6 +6,7 @@ import { logIn, register } from "../../../store/slices/userSlice";
 import { useForm } from "react-hook-form";
 import LoginAuthStep from "../../LoginAuthStep/LoginAuthStep";
 import PasswordAuthStep from "../../PasswordAuthStep/PasswordAuthStep";
+import RegisterAuthStep from "../../RegisterAuthStep/RegisterAuthStep";
 
 const AuthModal = ({
   isModalActive,
@@ -30,8 +31,7 @@ const AuthModal = ({
   const registerForm = useForm();
 
   const submit = (data) => {
-    // console.log(loginForm.watch('login'))
-    // console.log(passwordForm);
+
     console.log(data);
     if (step === 0) {
       userExist(data.login);
@@ -62,7 +62,7 @@ const AuthModal = ({
 
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
-      <div className={styles.ModalContent}>
+      <div className={step === 2 ? [styles.ModalContent, styles.ContentRegister].join(' ') : styles.ModalContent}>
         {step === 0 && (
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Вход</h2>
@@ -112,27 +112,6 @@ const AuthModal = ({
 
             <PasswordAuthStep passwordForm={passwordForm} submit={submit} />
 
-            {/* <input
-              className={[styles.ModalContentInput, "input"].join(" ")}
-              value={passwordValue}
-              onChange={(e) => setPasswordValue(e.target.value)}
-              placeholder="Пароль"
-            ></input>
-
-            <button
-              className={[styles.ModalContentNextBtn, "button"].join(" ")}
-              // onClick={() => loginUser(emailValue, passwordValue)}
-              onClick={() =>
-                dispatch(
-                  logIn({ email: emailValue, password: passwordValue })
-                ).then(() => {
-                  setIsModalActive(false);
-                })
-              }
-            >
-              Войти
-            </button> */}
-
             <button
               className={styles.ModalContentClose}
               onClick={() => setIsModalActive(false)}
@@ -158,7 +137,11 @@ const AuthModal = ({
         {step === 2 && (
           <div className={styles.ModalContentWrapper}>
             <h2 className={styles.ModalContentTitle}>Регистрация</h2>
-            <div className={styles.ModalContentFields}>
+            <div className={styles.Tooltip}>
+              <img src='/tooltip.svg'></img>
+              <p className={styles.TooltipText}>В пароле используйте от 8 до 32 символов: строчные и прописные латинские буквы (A-z), цифры (0-9) и спец символы ( . , : ; ? ! * + % - &lt; &gt; @ [ ] &#123; &#125; / \ _ &#123; &#125; $ # )</p>
+            </div>
+            {/* <div className={styles.ModalContentFields}>
               <input
                 className="input"
                 type="text"
@@ -211,7 +194,9 @@ const AuthModal = ({
               }
             >
               Зарегистрироваться
-            </button>
+            </button> */}
+
+            <RegisterAuthStep registerForm={registerForm} submit={submit}/>
 
             <button
               className={styles.ModalContentClose}

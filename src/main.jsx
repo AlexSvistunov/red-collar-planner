@@ -27,4 +27,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
 // wrong password (rejected, fullfilled)
 // clear steps after an action
-// clear states(inputValue)
+// clear states(inputValue
+
+// auth events update
+
+// focus placeholder

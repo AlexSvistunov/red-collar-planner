@@ -23,9 +23,9 @@ import TestForm from "./components/TestForm";
 const App = () => {
   const dispatch = useDispatch()
   const [events, setEvents] = useState([]);
-  const [isModalActive, setIsModalActive] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(true);
 
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
 
   const { token } = useAuth();
   const { isAuth } = useAuth();

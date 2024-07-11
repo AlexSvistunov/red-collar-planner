@@ -68,9 +68,6 @@ const userSlice = createSlice({
 
   extraReducers: (builder) => {
 
-    // builder.addCase(logIn.rejected, (state, action) => {
-    //   alert('1231231231')
-    // });
     builder.addCase(logIn.fulfilled, (state, action) => {
       localStorage.setItem("token", action.payload.jwt);
       state.token = action.payload.jwt;

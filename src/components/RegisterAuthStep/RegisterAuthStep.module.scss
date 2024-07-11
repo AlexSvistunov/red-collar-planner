@@ -1,0 +1,39 @@
+.Form {
+  max-width: 346px;
+  width: 100%;
+
+  &InputBox {
+
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 120%;
+    letter-spacing: -0.02em;
+    color: #f51b1b;
+  }
+
+  &Input {
+    margin-bottom: 4px;
+    
+
+    
+  }
+
+  &InputWrapper {
+    position: relative;
+  }
+
+  &InputToggle {
+    cursor: pointer;
+    position: absolute;
+    top: 14px;
+    right: 16px;
+  }
+}
+
+.ModalContentFields {
+  width: 100%;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}

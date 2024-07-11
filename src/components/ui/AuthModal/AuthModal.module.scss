@@ -28,7 +28,6 @@
 
   &ContentWrapper {
     flex: 1 1 auto;
-    max-width: 346px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -74,4 +73,27 @@
     flex-direction: column;
     gap: 32px;
   }
+}
+
+
+.Tooltip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 24px;
+  background: #fafafa;
+  &Text {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: -0.02em;
+    color: #0d0c0c;
+  }
+}
+
+.ContentRegister {
+  max-width: 710px;
 }
