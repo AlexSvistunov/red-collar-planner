@@ -10,6 +10,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   </Provider>
 );
 
+
+// step 1 + modal close
+// закрытие модалки с watch event
+// участники в модалке
+// если выходим, то не обновляюся красные точки, и если зайдем, тоже, а также когда присоединяюсь
+// присоед. работает с кружком
+
 // eventModal add participants, gallery
 // auth validation
 // create validation

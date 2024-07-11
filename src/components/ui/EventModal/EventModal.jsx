@@ -16,7 +16,7 @@ const EventModal = ({
   item,
   joinEvent,
   setIsModalActive,
-  deleteEvent,
+  leaveEvent,
 }) => {
   const { isAuth, token } = useAuth();
   const [meData, setMeData] = useState(null);
@@ -215,7 +215,7 @@ const EventModal = ({
                 >
                   <button
                     onClick={() => {
-                      deleteEvent(item.id);
+                      leaveEvent(item.id);
                       setWatchEventActive(false);
                     }}
                     className={styles.ContentLogin}
@@ -248,66 +248,7 @@ const EventModal = ({
               </button>
             )}
 
-            {/*             
-<Swiper modules={[Pagination]} pagination={{ clickable: true }}>
-              <SwiperSlide>1</SwiperSlide>
-              <SwiperSlide>2</SwiperSlide>
-              <SwiperSlide>3</SwiperSlide>
-            </Swiper> */}
-
-            {/* {isAuth ? (
-              item.participants.some(
-                (participant) => participant.id === meData.id
-              ) ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginTop: "auto",
-                  }}
-                >
-                  <button
-                    onClick={() => {
-                      deleteEvent(item.id);
-                      setWatchEventActive(false);
-                    }}
-                    className={styles.ContentLogin}
-                  >
-                    Вы присоединились к событию. Если передумали, можете{" "}
-                    <span style={{ color: "#f51b1b" }}>отменить участие.</span>
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => {
-                    joinEvent(item.id);
-                    setWatchEventActive(false);
-                  }}
-                  className={[styles.ContentJoin, "button"].join(" ")}
-                >
-                  Присоединиться к событию
-                </button>
-              )
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "auto",
-                }}
-              >
-                <button
-                  onClick={() => {
-                    setWatchEventActive(false);
-                    setIsModalActive(true);
-                  }}
-                  className={styles.ContentLogin}
-                >
-                  <span style={{ color: "#f51b1b" }}>Войдите </span>, чтобы
-                  присоединиться к событию
-                </button>
-              </div>
-            )} */}
+          
           </div>
         )}
       </div>

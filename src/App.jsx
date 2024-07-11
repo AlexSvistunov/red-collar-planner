@@ -81,7 +81,6 @@ const App = () => {
     }
   };
 
-
    const joinEvent = async (id) => {
     try {
       const response = await fetch(`${URL}/api/events/${id}/join`, {
@@ -99,7 +98,7 @@ const App = () => {
     getEventsForPublic()
   };
 
-  const deleteEvent = async (id) => {
+  const leaveEvent = async (id) => {
     try {
       const response = await fetch(`${URL}/api/events/${id}/leave`, {
         method: 'POST',
@@ -117,8 +116,6 @@ const App = () => {
     getEventsForPublic()
   };
   
-
-
   const createEvent = async (obj) => {
  
     try {
@@ -140,7 +137,6 @@ const App = () => {
     }
   };
 
-  
 
   useEffect(() => {
     getEventsForPublic()
@@ -157,8 +153,6 @@ const App = () => {
           </div>
 
           <div className="app__header-right">
-            {/* <button className="app__header-login">Войти</button> */}
-            {/* <Button>Войти</Button> */}
 
             {isAuth ? (
               <div className="app__header-block">
@@ -185,7 +179,8 @@ const App = () => {
             )}
           </div>
         </div>
-        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} watchEventActive={watchEventActive}  joinEvent={joinEvent} deleteEvent={deleteEvent} setIsModalActive={setIsModalActive}  />
+
+        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} watchEventActive={watchEventActive}  joinEvent={joinEvent} leaveEvent={leaveEvent} setIsModalActive={setIsModalActive}  />
       </div>
 
       <AuthModal
@@ -195,7 +190,7 @@ const App = () => {
         step={step}
         setStep={setStep}
         loginUser={loginUser}
-      ></AuthModal>
+    />
 
  
       <CreateEventModal
@@ -205,7 +200,6 @@ const App = () => {
       />
 
    
-
       {/* <EventModal
         isModalActive={watchEventActive}
         setIsModalActive={setWatchEventActive}
@@ -214,11 +208,7 @@ const App = () => {
   );
 };
 
-// step 1 + modal close
-// закрытие модалки с watch event
-// участники в модалке
-// если выходим, то не обновляюся красные точки, и если зайдем, тоже, а также когда присоединяюсь
-// присоед. работает с кружком
+
 
 
 export default App;

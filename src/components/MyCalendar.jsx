@@ -14,7 +14,7 @@ const MyCalendar = ({
   watchEventActive,
   joinEvent,
   setIsModalActive,
-  deleteEvent
+  leaveEvent
 }) => {
   const [activeItem, setActiveItem] = useState(null)
   const {token} = useAuth()
@@ -58,20 +58,10 @@ const MyCalendar = ({
         style={{ height: 900 }}
         onSelectEvent={handleSelectEvent}
         eventPropGetter={(event) => {
-          const color = event.prevDate ? "#b3b3bc" : "black";
-         
           const isParticipant = event?.participants?.some(participant => participant?.id === myData?.id)
-    
-          const size = isParticipant ? '20px' : '20px';
           const backgroundImage = isParticipant ? "url('/circle.svg')" : null
-          const background = event?.owner?.id === myData?.id ? 'red' : '#efefef'
-
-          // console.log(event)
-          // console.log(event.dateEnd > new Date().toISOString())
-
           const isEventPassed = event.dateStart > new Date().toISOString() ? false : true
 
-        
           return {
             style: {
               padding: "7px 10px",
@@ -96,8 +86,8 @@ const MyCalendar = ({
         item={activeItem}
         joinEvent={joinEvent}
         setIsModalActive={setIsModalActive}
-        deleteEvent={deleteEvent}
-        //or item
+        leaveEvent={leaveEvent}
+      
       />
     </div>
   );
