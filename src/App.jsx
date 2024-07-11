@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 
 const App = () => {
   const dispatch = useDispatch()
+
   const [events, setEvents] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
 
@@ -28,9 +29,6 @@ const App = () => {
 
   const { token } = useAuth();
   const { isAuth } = useAuth();
-
-  console.log(events)
-
 
   const [createEventActive, setCreateEventActive] = useState(false);
   const [watchEventActive, setWatchEventActive] = useState(false);

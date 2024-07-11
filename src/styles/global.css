@@ -37,6 +37,10 @@ img {
   max-height: 100%;
 }
 
+.swiper-slide img {
+  user-select: none;
+}
+
 .swiper-wrapper{
   max-height: 100%;
   height: 100%;
