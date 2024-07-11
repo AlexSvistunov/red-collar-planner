@@ -8,7 +8,6 @@ import "./App.scss";
 // import { Swiper, SwiperSlide } from "swiper/react";
 
 import "./styles/calendar-styles-sass/styles.scss";
-import Button from "./components/ui/Button/Button";
 import AuthModal from "./components/ui/AuthModal/AuthModal";
 
 import { useAuth } from "./hooks/useAuth";
@@ -17,15 +16,15 @@ import EventModal from "./components/ui/EventModal/EventModal";
 import { useDispatch } from "react-redux";
 import { removeUser } from "./store/slices/userSlice";
 import { useSelector } from "react-redux";
-import TestForm from "./components/TestForm";
+
 
 
 const App = () => {
   const dispatch = useDispatch()
   const [events, setEvents] = useState([]);
-  const [isModalActive, setIsModalActive] = useState(true);
+  const [isModalActive, setIsModalActive] = useState(false);
 
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
 
   const { token } = useAuth();
   const { isAuth } = useAuth();
@@ -198,19 +197,14 @@ const App = () => {
         loginUser={loginUser}
       ></AuthModal>
 
-      {/* <Swiper>
-        <SwiperSlide>1</SwiperSlide>
-        <SwiperSlide>2</SwiperSlide>
-        <SwiperSlide>3</SwiperSlide>
-      </Swiper> */}
-
+ 
       <CreateEventModal
         isModalActive={createEventActive}
         setIsModalActive={setCreateEventActive}
         createEvent={createEvent}
       />
 
-      {/* <TestForm/> */}
+   
 
       {/* <EventModal
         isModalActive={watchEventActive}
