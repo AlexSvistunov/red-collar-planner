@@ -27,7 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // decomposion
 // improve code
 
-// some optional features
+// some optional features (hover, etc)
 
 // modal view overflow
 // swiper pagination, navigation out of the swiper
@@ -35,9 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // wrong password (rejected, fullfilled)
 // clear steps after an action
 // clear states(inputValue
-
 // auth events update
-
 // focus placeholder
 // green border
 // disabled btn validation

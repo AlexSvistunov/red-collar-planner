@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styles from "./CreateEventModal.module.scss";
 
+import { FileUploader } from "react-drag-drop-files";
+
 const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   const [createFields, setCreateFields] = useState({
     title: "",
@@ -12,29 +14,43 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     participants: [1],
   });
 
+  const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
+
+  const [file, setFile] = useState(null);
+  const handleChange = (file) => {
+    setFile(file);
+  };
+
+  const removeFile = (key) => {
+    const updatedFiles = { ...file };
+    delete updatedFiles[key];
+    setFile(updatedFiles);
+  };
+
+
+
+  console.log(file);
+
   const [meData, setMeData] = useState(null);
 
   function checkDate(date) {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; 
+    const month = currentDate.getMonth() + 1;
     const day = currentDate.getDate();
 
     const formattedDate = `${day < 10 ? "0" : ""}${day}.${
       month < 10 ? "0" : ""
     }${month}.${year}`;
 
-
     const inputDate = new Date(date);
     const yearInput = inputDate.getFullYear();
-    const monthInput = inputDate.getMonth() + 1; 
+    const monthInput = inputDate.getMonth() + 1;
     const dayInput = inputDate.getDate();
 
     const formattedDateInput = `${dayInput < 10 ? "0" : ""}${dayInput}.${
       monthInput < 10 ? "0" : ""
     }${monthInput}.${yearInput}`;
-
-
 
     if (formattedDateInput >= formattedDate) {
       return false;
@@ -60,14 +76,12 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   };
 
   const createdBy = (item) => {
-    if(item.owner.id === myData.id) {
-      return true
+    if (item.owner.id === myData.id) {
+      return true;
     } else {
-      return false
+      return false;
     }
-  }
-
-
+  };
 
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
@@ -106,7 +120,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
               ></input>
               <textarea
                 placeholder="Описание"
-                 className="input-base"
+                className="input-base"
                 value={createFields.description}
                 onChange={(e) =>
                   setCreateFields({
@@ -116,18 +130,32 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 }
               ></textarea>
               <div>Участники</div>
+              <FileUploader
+                handleChange={handleChange}
+                name="file"
+                types={fileTypes}
+                multiple={true}
+                
+            
+              >
+                <div className={styles.Choose}>
+                  <div className={styles.ChooseSelect}>Выберите фото или перетащите сюда</div>
+                </div>
+              </FileUploader>
             </div>
             <div className={styles.ContentWrapperRight}>
-              <input
-                type="date"
-                value={createFields.dateStart}
-                onChange={(e) =>
-                  setCreateFields({
-                    ...createFields,
-                    dateStart: e.target.value,
-                  })
-                }
-              ></input>
+              <div>
+                <input
+                  type="date"
+                  value={createFields.dateStart}
+                  onChange={(e) =>
+                    setCreateFields({
+                      ...createFields,
+                      dateStart: e.target.value,
+                    })
+                  }
+                ></input>
+              </div>
               <input
                 type="date"
                 value={createFields.dateEnd}
@@ -136,7 +164,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 }
               ></input>
               <input
-               className="input-base"
+                className="input-base"
                 type="text"
                 placeholder="Время"
                 value={createFields.time}
@@ -144,8 +172,11 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                   setCreateFields({ ...createFields, time: e.target.value })
                 }
               ></input>
+
+              <div>Время начала</div>
+              <div>Время конца</div>
               <input
-               className="input-base"
+                className="input-base"
                 type="text"
                 placeholder="Место проведения"
                 value={createFields.location}
@@ -154,16 +185,51 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 }
               ></input>
               <div>Организатор</div>
+
+              <div className={styles.ChooseImages}>
+                {file &&
+                  Object.keys(file).map((key) => {
+                    const myFile = file[key];
+                    return (
+                      <div key={key} className={styles.ChooseImage}>
+                        <button className={styles.ChooseRemove} onClick={() => removeFile(key)}>
+                        <svg 
+                          width="24"
+                          height="25"
+                          viewBox="0 0 24 25"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M12 10.25L5.25 3.5L3 5.75L9.75 12.5L3 19.25L5.25 21.5L12 14.75L18.75 21.5L21 19.25L14.25 12.5L21 5.75L18.75 3.5L12 10.25Z"
+                            fill="white"
+                          />
+                        </svg>
+                        </button>
+                        
+                        <img
+                          src={URL.createObjectURL(myFile)}
+                          alt={myFile.name}
+                          width={133}
+                          height={80}
+                        />
+
+                        {/* <p>Name: {myFile.name}</p>
+                      <p>Size: {myFile.size}</p> */}
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </div>
 
           <button
-          className="button"
+            className="button"
             onClick={() =>
               createEvent({
                 ...createFields,
-              
-               
               })
             }
           >

@@ -90,3 +90,48 @@
     max-width: 346px;
   }
 }
+
+
+.Choose {
+  border: 1px dashed #b3b3bc;
+  border-radius: 12px;
+  width: 580px;
+  height: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &Select {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 110%;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #b3b3bc;
+  }
+
+  &Images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+  }
+
+  &Image {
+    position: relative;
+  }
+
+  &Remove {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background-color: black;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
