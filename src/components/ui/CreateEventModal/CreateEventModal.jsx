@@ -10,6 +10,7 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import fileTypes from "../../../utils/fileTypes";
 import fillTime from "../../../utils/timeOptions";
+import UserService from "../../../api/UserService";
 
 const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   const [createFields, setCreateFields] = useState({
@@ -52,71 +53,12 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
 
   const [meData, setMeData] = useState(null);
 
-  function checkDate(date) {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1;
-    const day = currentDate.getDate();
 
-    const formattedDate = `${day < 10 ? "0" : ""}${day}.${
-      month < 10 ? "0" : ""
-    }${month}.${year}`;
+  // getMe, createdBy, checkDate
 
-    const inputDate = new Date(date);
-    const yearInput = inputDate.getFullYear();
-    const monthInput = inputDate.getMonth() + 1;
-    const dayInput = inputDate.getDate();
-
-    const formattedDateInput = `${dayInput < 10 ? "0" : ""}${dayInput}.${
-      monthInput < 10 ? "0" : ""
-    }${monthInput}.${yearInput}`;
-
-    if (formattedDateInput >= formattedDate) {
-      return false;
-    } else {
-      return true;
-    }
+  function getUsers() {
+    UserService.getUsers().then(data => setOptions(data))
   }
-
-  const getMe = async () => {
-    try {
-      const response = await fetch(`${URL}/api/users/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-      setMeData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const createdBy = (item) => {
-    if (item.owner.id === myData.id) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const getUsers = async () => {
-    try {
-      const response = await fetch(`${url}/api/users`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setOptions(data);
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
    if(isAuth) {

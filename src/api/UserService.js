@@ -29,4 +29,36 @@ export default class UserService {
         console.log(error.message);
       }
   }
+
+  static async getUsers() {
+    try {
+      const response = await fetch(`${url}/api/users`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      return data
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async getMe(url, token) {
+    try {
+      const response = await fetch(`${url}/api/users/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      return data
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
