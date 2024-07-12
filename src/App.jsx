@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import url from "./api/url";
+import URL from "./api/url";
 import MyCalendar from "./components/MyCalendar";
 import "./index.css";
 import "./App.scss";
-
-// import { Swiper, SwiperSlide } from "swiper/react";
 
 import "./styles/calendar-styles-sass/styles.scss";
 import AuthModal from "./components/ui/AuthModal/AuthModal";
@@ -15,6 +13,8 @@ import EventModal from "./components/ui/EventModal/EventModal";
 import { useDispatch } from "react-redux";
 import { removeUser } from "./store/slices/userSlice";
 import { useSelector } from "react-redux";
+import EventService from "./api/EventService";
+import UserService from "./api/UserService";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,104 +30,42 @@ const App = () => {
   const [createEventActive, setCreateEventActive] = useState(false);
   const [watchEventActive, setWatchEventActive] = useState(false);
 
-  const getEventsForPublic = async () => {
-    try {
-      const response = await fetch(
-        `${url}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`
-      );
-
-      const data = await response.json();
-      setEvents(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const userExist = async (email) => {
-    try {
-      const response = await fetch(`${URL}/api/taken-emails/${email}`);
-      if (response.ok && response.status !== 404) {
-        setStep((prevStep) => prevStep + 1);
-      } else {
-        setStep((prevStep) => prevStep + 2);
+  function userExist(email) {
+    UserService.userExist(email).then((data) => {
+      if (data === "plus one") {
+        setStep(step + 1);
       }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
-  const loginUser = async (email, password) => {
-    try {
-      const response = await fetch(`${URL}/api/auth/local`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          identifier: email,
-          password: password,
-        }),
-      });
+      if (data === "plus two") {
+        setStep(step + 2);
+      }
+    });
+  }
 
-      const data = await response.json();
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  function loginUser(email, password) {
+    UserService.loginUser(email, password);
+  }
 
-  const joinEvent = async (id) => {
-    try {
-      const response = await fetch(`${URL}/api/events/${id}/join`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
+  async function joinEvent(id) {
+    EventService.joinEvent(id, token).then(() => fetchEvents());
+  }
 
-    getEventsForPublic();
-  };
+  async function leaveEvent(id) {
+    EventService.leaveEvent(id, token).then(() => fetchEvents());
+  }
 
-  const leaveEvent = async (id) => {
-    try {
-      const response = await fetch(`${URL}/api/events/${id}/leave`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      console.log("DELETE", data);
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
+  async function createEvent(obj) {
+    EventService.createEvent(token, obj).then((data) =>
+      setEvents([...events, data])
+    );
+  }
 
-    getEventsForPublic();
-  };
-
-  const createEvent = async (obj) => {
-    try {
-      const response = await fetch(`${URL}/api/events`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-
-        body: JSON.stringify(obj),
-      });
-
-      const data = await response.json();
-      setEvents([...events, data]);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  async function fetchEvents() {
+    EventService.getEventsForPublic().then((data) => setEvents(data.data));
+  }
 
   useEffect(() => {
-    getEventsForPublic();
+    fetchEvents();
   }, []);
 
   return (

@@ -8,6 +8,8 @@ import { useAuth } from "../../../hooks/useAuth";
 import Calendar from "react-calendar";
 
 import 'react-calendar/dist/Calendar.css';
+import fileTypes from "../../../utils/fileTypes";
+import fillTime from "../../../utils/timeOptions";
 
 const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   const [createFields, setCreateFields] = useState({
@@ -20,16 +22,12 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     participants: [1],
   });
 
-  const { token } = useAuth();
+  const { token, isAuth } = useAuth();
   const [options, setOptions] = useState([]);
-
+  console.log(options);
 
   const [selectedOption, setSelectedOption] = useState(null);
 
- 
-  const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
-
-  const timeOptions = [];
 
   const [startCalendarValue, setStartCalendarValue] = useState(new Date())
   const [endCalendarValue, setEndCalendarValue] = useState(new Date())
@@ -37,17 +35,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   const [isStartCalendarVisible, setIsStartCalendarVisible] = useState(false)
   const [isEndCalendarVisible, setIsEndCalendarVisible] = useState(false)
 
-  for (let hour = 0; hour < 24; hour++) {
-    for (let minute = 0; minute < 60; minute += 15) {
-      let hourFormatted = hour.toString().padStart(2, "0");
-      let minuteFormatted = minute.toString().padStart(2, "0");
-      timeOptions.push({
-        value: `${hourFormatted}:${minuteFormatted}`,
-        label: `${hourFormatted}:${minuteFormatted}`,
-      });
-    }
-  }
-
+  const timeOptions = fillTime([])
 
 
   const [file, setFile] = useState(null);
@@ -60,7 +48,6 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     delete updatedFiles[key];
     setFile(updatedFiles);
   };
-
 
 
   const [meData, setMeData] = useState(null);
@@ -132,8 +119,10 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   };
 
   useEffect(() => {
+   if(isAuth) {
     getUsers();
-  }, []);
+   }
+  }, [isAuth]);
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
@@ -184,7 +173,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 isMulti
                 defaultValue={selectedOption}
                 onChange={setSelectedOption}
-                options={options.map((option) => {
+                options={options?.map((option) => {
                   option.value = option.username;
                   option.label = option.username;
 
