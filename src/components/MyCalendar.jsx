@@ -7,7 +7,7 @@ import moment from "moment";
 import EventModal from "./ui/EventModal/EventModal";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { URL } from "../api/url";
+import  URL  from "../api/url";
 const MyCalendar = ({
   events,
   setWatchEventActive,

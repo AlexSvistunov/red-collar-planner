@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CreateEventModal.module.scss";
 
 import { FileUploader } from "react-drag-drop-files";
+import Select from "react-select";
+import  url  from "../../../api/url";
+import { useAuth } from "../../../hooks/useAuth";
+import Calendar from "react-calendar";
+
+import 'react-calendar/dist/Calendar.css';
 
 const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   const [createFields, setCreateFields] = useState({
@@ -14,7 +20,35 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     participants: [1],
   });
 
+  const { token } = useAuth();
+  const [options, setOptions] = useState([]);
+
+
+  const [selectedOption, setSelectedOption] = useState(null);
+
+ 
   const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
+
+  const timeOptions = [];
+
+  const [startCalendarValue, setStartCalendarValue] = useState(new Date())
+  const [endCalendarValue, setEndCalendarValue] = useState(new Date())
+
+  const [isStartCalendarVisible, setIsStartCalendarVisible] = useState(false)
+  const [isEndCalendarVisible, setIsEndCalendarVisible] = useState(false)
+
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 15) {
+      let hourFormatted = hour.toString().padStart(2, "0");
+      let minuteFormatted = minute.toString().padStart(2, "0");
+      timeOptions.push({
+        value: `${hourFormatted}:${minuteFormatted}`,
+        label: `${hourFormatted}:${minuteFormatted}`,
+      });
+    }
+  }
+
+
 
   const [file, setFile] = useState(null);
   const handleChange = (file) => {
@@ -28,8 +62,6 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   };
 
 
-
-  console.log(file);
 
   const [meData, setMeData] = useState(null);
 
@@ -83,6 +115,25 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     }
   };
 
+  const getUsers = async () => {
+    try {
+      const response = await fetch(`${url}/api/users`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setOptions(data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
@@ -129,23 +180,33 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                   })
                 }
               ></textarea>
-              <div>Участники</div>
+              <Select
+                isMulti
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options.map((option) => {
+                  option.value = option.username;
+                  option.label = option.username;
+
+                  return option;
+                })}
+              />
               <FileUploader
                 handleChange={handleChange}
                 name="file"
                 types={fileTypes}
                 multiple={true}
-                
-            
               >
                 <div className={styles.Choose}>
-                  <div className={styles.ChooseSelect}>Выберите фото или перетащите сюда</div>
+                  <div className={styles.ChooseSelect}>
+                    Выберите фото или перетащите сюда
+                  </div>
                 </div>
               </FileUploader>
             </div>
             <div className={styles.ContentWrapperRight}>
               <div>
-                <input
+                {/* <input
                   type="date"
                   value={createFields.dateStart}
                   onChange={(e) =>
@@ -154,16 +215,24 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                       dateStart: e.target.value,
                     })
                   }
-                ></input>
+                ></input> */}
+
+                <button onClick={() => setIsStartCalendarVisible(!isStartCalendarVisible)}>Start</button>
+                {isStartCalendarVisible && <Calendar onChange={setStartCalendarValue} value={startCalendarValue}/>}
               </div>
-              <input
+
+              <div>
+              <button onClick={() => setIsEndCalendarVisible(!isEndCalendarVisible)}>End</button>
+              {isEndCalendarVisible && <Calendar onChange={setEndCalendarValue} value={endCalendarValue}/>}
+              </div>
+              {/* <input
                 type="date"
                 value={createFields.dateEnd}
                 onChange={(e) =>
                   setCreateFields({ ...createFields, dateEnd: e.target.value })
                 }
-              ></input>
-              <input
+              ></input> */}
+              {/* <input
                 className="input-base"
                 type="text"
                 placeholder="Время"
@@ -171,10 +240,13 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 onChange={(e) =>
                   setCreateFields({ ...createFields, time: e.target.value })
                 }
-              ></input>
+              ></input> */}
 
-              <div>Время начала</div>
-              <div>Время конца</div>
+              <Select options={timeOptions}/>
+              <Select options={timeOptions}/>
+
+              {/* <div>Время начала</div>
+              <div>Время конца</div> */}
               <input
                 className="input-base"
                 type="text"
@@ -192,23 +264,26 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                     const myFile = file[key];
                     return (
                       <div key={key} className={styles.ChooseImage}>
-                        <button className={styles.ChooseRemove} onClick={() => removeFile(key)}>
-                        <svg 
-                          width="24"
-                          height="25"
-                          viewBox="0 0 24 25"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <button
+                          className={styles.ChooseRemove}
+                          onClick={() => removeFile(key)}
                         >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M12 10.25L5.25 3.5L3 5.75L9.75 12.5L3 19.25L5.25 21.5L12 14.75L18.75 21.5L21 19.25L14.25 12.5L21 5.75L18.75 3.5L12 10.25Z"
-                            fill="white"
-                          />
-                        </svg>
+                          <svg
+                            width="24"
+                            height="25"
+                            viewBox="0 0 24 25"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M12 10.25L5.25 3.5L3 5.75L9.75 12.5L3 19.25L5.25 21.5L12 14.75L18.75 21.5L21 19.25L14.25 12.5L21 5.75L18.75 3.5L12 10.25Z"
+                              fill="white"
+                            />
+                          </svg>
                         </button>
-                        
+
                         <img
                           src={URL.createObjectURL(myFile)}
                           alt={myFile.name}
@@ -226,7 +301,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
           </div>
 
           <button
-            className="button"
+            className={[styles.ModalContentCreate, 'button'].join(' ')}
             onClick={() =>
               createEvent({
                 ...createFields,

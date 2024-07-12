@@ -20,7 +20,7 @@
     width: 100%;
     padding: 40px;
     background: #fff;
-    min-height: 510px;
+    min-height: 907px;
     border-radius: 64px;
     display: flex;
   }
@@ -66,6 +66,10 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+  }
+
+  &ContentCreate {
+    margin-top: auto;
   }
 }
 

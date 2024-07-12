@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { URL } from "./api/url";
+import url from "./api/url";
 import MyCalendar from "./components/MyCalendar";
 import "./index.css";
 import "./App.scss";
-
 
 // import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -17,10 +16,8 @@ import { useDispatch } from "react-redux";
 import { removeUser } from "./store/slices/userSlice";
 import { useSelector } from "react-redux";
 
-
-
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [events, setEvents] = useState([]);
   const [isModalActive, setIsModalActive] = useState(false);
@@ -33,19 +30,18 @@ const App = () => {
   const [createEventActive, setCreateEventActive] = useState(false);
   const [watchEventActive, setWatchEventActive] = useState(false);
 
-
   const getEventsForPublic = async () => {
     try {
-      const response = await fetch(`${URL}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`)
+      const response = await fetch(
+        `${url}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`
+      );
 
-      const data = await response.json()
-      setEvents(data.data)
-      
-    
+      const data = await response.json();
+      setEvents(data.data);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const userExist = async (email) => {
     try {
       const response = await fetch(`${URL}/api/taken-emails/${email}`);
@@ -73,49 +69,45 @@ const App = () => {
       });
 
       const data = await response.json();
-    
     } catch (error) {
       console.log(error.message);
     }
   };
 
-   const joinEvent = async (id) => {
+  const joinEvent = async (id) => {
     try {
       const response = await fetch(`${URL}/api/events/${id}/join`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await response.json();
-     
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     }
 
-    getEventsForPublic()
+    getEventsForPublic();
   };
 
   const leaveEvent = async (id) => {
     try {
       const response = await fetch(`${URL}/api/events/${id}/leave`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       const data = await response.json();
-      console.log('DELETE', data)
-     
+      console.log("DELETE", data);
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     }
 
-    getEventsForPublic()
+    getEventsForPublic();
   };
-  
+
   const createEvent = async (obj) => {
- 
     try {
       const response = await fetch(`${URL}/api/events`, {
         method: "POST",
@@ -129,17 +121,14 @@ const App = () => {
 
       const data = await response.json();
       setEvents([...events, data]);
-    
     } catch (error) {
       console.log(error.message);
     }
   };
 
-
   useEffect(() => {
-    getEventsForPublic()
+    getEventsForPublic();
   }, []);
-
 
   return (
     <div className="app">
@@ -151,7 +140,6 @@ const App = () => {
           </div>
 
           <div className="app__header-right">
-
             {isAuth ? (
               <div className="app__header-block">
                 <button
@@ -162,12 +150,13 @@ const App = () => {
                 </button>
 
                 <div className="app__header-avatar">
-                  <img
-                    className=""
-                    src="/avatar.svg"
-                    alt=""
-                  />
-                  <button className="app__header-avatar-btn" onClick={() => dispatch(removeUser())}>Выйти</button>
+                  <img className="" src="/avatar.svg" alt="" />
+                  <button
+                    className="app__header-avatar-btn"
+                    onClick={() => dispatch(removeUser())}
+                  >
+                    Выйти
+                  </button>
                 </div>
               </div>
             ) : (
@@ -178,7 +167,14 @@ const App = () => {
           </div>
         </div>
 
-        <MyCalendar events={events} setWatchEventActive={setWatchEventActive} watchEventActive={watchEventActive}  joinEvent={joinEvent} leaveEvent={leaveEvent} setIsModalActive={setIsModalActive}  />
+        <MyCalendar
+          events={events}
+          setWatchEventActive={setWatchEventActive}
+          watchEventActive={watchEventActive}
+          joinEvent={joinEvent}
+          leaveEvent={leaveEvent}
+          setIsModalActive={setIsModalActive}
+        />
       </div>
 
       <AuthModal
@@ -188,16 +184,14 @@ const App = () => {
         step={step}
         setStep={setStep}
         loginUser={loginUser}
-    />
+      />
 
- 
       <CreateEventModal
         isModalActive={createEventActive}
         setIsModalActive={setCreateEventActive}
         createEvent={createEvent}
       />
 
-   
       {/* <EventModal
         isModalActive={watchEventActive}
         setIsModalActive={setWatchEventActive}
@@ -205,8 +199,5 @@ const App = () => {
     </div>
   );
 };
-
-
-
 
 export default App;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { URL } from "../../../api/url";
+import  URL  from "../../../api/url";
 import { useAuth } from "../../../hooks/useAuth";
 import styles from "./EventModal.module.scss";
 
