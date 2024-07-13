@@ -39,3 +39,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // focus placeholder
 // green border
 // disabled btn validation
+
+// create validation

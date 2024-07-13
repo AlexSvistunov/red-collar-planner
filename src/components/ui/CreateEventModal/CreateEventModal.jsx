@@ -13,17 +13,7 @@ import fillTime from "../../../utils/timeOptions";
 import UserService from "../../../api/UserService";
 
 const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
-  const [createFields, setCreateFields] = useState({
-    title: "",
-    description: "",
-    dateStart: "",
-    dateEnd: "",
-    time: "",
-    location: "",
-    participants: [1],
-  });
 
-  console.log(createFields);
 
   const { token, isAuth } = useAuth();
   const [options, setOptions] = useState([]);
@@ -33,7 +23,6 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
 
   const [startCalendarValue, setStartCalendarValue] = useState(new Date());
   const [endCalendarValue, setEndCalendarValue] = useState(new Date());
-
 
   const [isStartCalendarVisible, setIsStartCalendarVisible] = useState(false);
   const [isEndCalendarVisible, setIsEndCalendarVisible] = useState(false);
@@ -59,21 +48,48 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     UserService.getUsers(token).then((data) => setOptions(data));
   }
 
-  const onChangeDateStart = (date) => {
-    setStartCalendarValue(date);
-    setIsStartCalendarVisible(false)
-  };
-
-  const onChangeDateEnd = (date) => {
-    setEndCalendarValue(date);
-    setIsEndCalendarVisible(false)
-  };
 
   useEffect(() => {
     if (isAuth) {
       getUsers();
     }
   }, [isAuth]);
+
+  const [createFields, setCreateFields] = useState({
+    title: "",
+    description: "",
+    dateStart: new Date().toISOString(),
+    dateEnd: new Date().toISOString(),
+    time: "",
+    location: "",
+    participants: [],
+    photos: []
+  });
+
+  console.log(file);
+
+  const onChangeDateStart = (date) => {
+    setStartCalendarValue(date);
+    setIsStartCalendarVisible(false)
+    setCreateFields({...createFields, dateStart: date.toISOString()})
+  };
+  const onChangeDateEnd = (date) => {
+    setEndCalendarValue(date);
+    setIsEndCalendarVisible(false)
+    setCreateFields({...createFields, dateEnd: date.toISOString()})
+  };
+
+  const onSelectedHandler = (e) => {
+    setSelectedOption(e)
+    setCreateFields({
+      ...createFields,
+      participants: e.map(el => el.id),
+    })
+    console.log(e);
+  }
+
+
+  console.log(createFields);
 
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
@@ -109,6 +125,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 onChange={(e) =>
                   setCreateFields({ ...createFields, title: e.target.value })
                 }
+                required
               ></input>
               <textarea
                 placeholder="Описание"
@@ -124,7 +141,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
               <Select
                 isMulti
                 defaultValue={selectedOption}
-                onChange={setSelectedOption}
+                onChange={onSelectedHandler}
                 options={options?.map((option) => {
                   option.value = option.username;
                   option.label = option.username;
@@ -216,9 +233,9 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                   setCreateFields({ ...createFields, time: e.target.value })
                 }
               ></input> */}
-
+{/* 
               <Select options={timeOptions} />
-              <Select options={timeOptions} />
+              <Select options={timeOptions} /> */}
 
               <input
                 className="input-base"
