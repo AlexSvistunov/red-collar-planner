@@ -46,15 +46,15 @@ const App = () => {
     UserService.loginUser(email, password);
   }
 
-  async function joinEvent(id) {
+  function joinEvent(id) {
     EventService.joinEvent(id, token).then(() => fetchEvents());
   }
 
-  async function leaveEvent(id) {
+  function leaveEvent(id) {
     EventService.leaveEvent(id, token).then(() => fetchEvents());
   }
 
-  async function createEvent(obj) {
+  function createEvent(obj) {
     EventService.createEvent(token, obj).then((data) =>
       setEvents([...events, data])
     );

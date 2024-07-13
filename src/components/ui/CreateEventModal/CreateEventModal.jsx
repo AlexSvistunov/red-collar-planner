@@ -3,11 +3,11 @@ import styles from "./CreateEventModal.module.scss";
 
 import { FileUploader } from "react-drag-drop-files";
 import Select from "react-select";
-import  url  from "../../../api/url";
+import url from "../../../api/url";
 import { useAuth } from "../../../hooks/useAuth";
 import Calendar from "react-calendar";
 
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 import fileTypes from "../../../utils/fileTypes";
 import fillTime from "../../../utils/timeOptions";
 import UserService from "../../../api/UserService";
@@ -23,21 +23,22 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     participants: [1],
   });
 
+  console.log(createFields);
+
   const { token, isAuth } = useAuth();
   const [options, setOptions] = useState([]);
   console.log(options);
 
   const [selectedOption, setSelectedOption] = useState(null);
 
+  const [startCalendarValue, setStartCalendarValue] = useState(new Date());
+  const [endCalendarValue, setEndCalendarValue] = useState(new Date());
 
-  const [startCalendarValue, setStartCalendarValue] = useState(new Date())
-  const [endCalendarValue, setEndCalendarValue] = useState(new Date())
 
-  const [isStartCalendarVisible, setIsStartCalendarVisible] = useState(false)
-  const [isEndCalendarVisible, setIsEndCalendarVisible] = useState(false)
+  const [isStartCalendarVisible, setIsStartCalendarVisible] = useState(false);
+  const [isEndCalendarVisible, setIsEndCalendarVisible] = useState(false);
 
-  const timeOptions = fillTime([])
-
+  const timeOptions = fillTime([]);
 
   const [file, setFile] = useState(null);
   const handleChange = (file) => {
@@ -50,21 +51,30 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     setFile(updatedFiles);
   };
 
-
   const [meData, setMeData] = useState(null);
-
 
   // getMe, createdBy, checkDate
 
   function getUsers() {
-    UserService.getUsers().then(data => setOptions(data))
+    UserService.getUsers(token).then((data) => setOptions(data));
   }
 
+  const onChangeDateStart = (date) => {
+    setStartCalendarValue(date);
+    setIsStartCalendarVisible(false)
+  };
+
+  const onChangeDateEnd = (date) => {
+    setEndCalendarValue(date);
+    setIsEndCalendarVisible(false)
+  };
+
   useEffect(() => {
-   if(isAuth) {
-    getUsers();
-   }
+    if (isAuth) {
+      getUsers();
+    }
   }, [isAuth]);
+
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
@@ -136,8 +146,50 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
               </FileUploader>
             </div>
             <div className={styles.ContentWrapperRight}>
-              <div>
-                {/* <input
+              {isStartCalendarVisible && (
+                <Calendar
+                  className={styles.Calendar}
+                  onChange={onChangeDateStart}
+                  value={startCalendarValue}
+                />
+              )}
+
+              {isEndCalendarVisible && (
+                <Calendar
+                  className={styles.Calendar}
+                  onChange={onChangeDateEnd}
+                  value={endCalendarValue}
+                />
+              )}
+              <div className={styles.InputWrapper}>
+                <div
+                  className={styles.Input}
+                  onClick={() =>
+                    setIsStartCalendarVisible(!isStartCalendarVisible)
+                  }
+                >
+                  {startCalendarValue.toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                  <img src="/calendar.svg"></img>
+                </div>
+
+                <div
+                  className={styles.Input}
+                  onClick={() => setIsEndCalendarVisible(!isEndCalendarVisible)}
+                >
+                  {endCalendarValue.toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                  <img src="/calendar.svg"></img>
+                </div>
+              </div>
+
+              {/* <input
                   type="date"
                   value={createFields.dateStart}
                   onChange={(e) =>
@@ -148,14 +200,6 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                   }
                 ></input> */}
 
-                <button onClick={() => setIsStartCalendarVisible(!isStartCalendarVisible)}>Start</button>
-                {isStartCalendarVisible && <Calendar onChange={setStartCalendarValue} value={startCalendarValue}/>}
-              </div>
-
-              <div>
-              <button onClick={() => setIsEndCalendarVisible(!isEndCalendarVisible)}>End</button>
-              {isEndCalendarVisible && <Calendar onChange={setEndCalendarValue} value={endCalendarValue}/>}
-              </div>
               {/* <input
                 type="date"
                 value={createFields.dateEnd}
@@ -173,11 +217,9 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 }
               ></input> */}
 
-              <Select options={timeOptions}/>
-              <Select options={timeOptions}/>
+              <Select options={timeOptions} />
+              <Select options={timeOptions} />
 
-              {/* <div>Время начала</div>
-              <div>Время конца</div> */}
               <input
                 className="input-base"
                 type="text"
@@ -232,7 +274,7 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
           </div>
 
           <button
-            className={[styles.ModalContentCreate, 'button'].join(' ')}
+            className={[styles.ModalContentCreate, "button"].join(" ")}
             onClick={() =>
               createEvent({
                 ...createFields,

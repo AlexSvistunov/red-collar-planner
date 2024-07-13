@@ -92,6 +92,7 @@
     gap: 32px;
     width: 100%;
     max-width: 346px;
+    position: relative;
   }
 }
 
@@ -138,4 +139,39 @@
     justify-content: center;
     align-items: center;
   }
+}
+
+.Input {
+  border: 1px solid #0d0c0c;
+  border-radius: 12px;
+  padding: 10px 16px 9px 16px;
+  position: relative;
+  flex: 1 1 auto;
+  height: 60px;
+  display: flex;
+  align-items: center;
+
+  & img {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+  }
+
+  &Wrapper {
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.Calendar {
+  position: absolute;
+  z-index: 100;
+  top: 15%;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }

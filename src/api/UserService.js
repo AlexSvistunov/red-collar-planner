@@ -30,9 +30,9 @@ export default class UserService {
       }
   }
 
-  static async getUsers() {
+  static async getUsers(token) {
     try {
-      const response = await fetch(`${url}/api/users`, {
+      const response = await fetch(`${URL}/api/users`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,9 +46,9 @@ export default class UserService {
     }
   }
 
-  static async getMe(url, token) {
+  static async getMe(token) {
     try {
-      const response = await fetch(`${url}/api/users/me`, {
+      const response = await fetch(`${URL}/api/users/me`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
