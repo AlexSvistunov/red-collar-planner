@@ -148,7 +148,7 @@
 }
 
 .Input {
-  border: 1px solid #0d0c0c;
+  border: 1px solid #b3b3bc;
   border-radius: 12px;
   padding: 10px 16px 9px 16px;
   position: relative;
@@ -180,4 +180,20 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
+
+@media (max-width: 1200px) {
+  .Modal {
+      &Content {
+        padding: 40px;
+        min-height: 500px;
+        width: auto;
+      }
+  }
+
+  .Input {
+    & img {
+      display: none;
+    }
+  }
 }

@@ -96,6 +96,7 @@
   bottom: 0;
   z-index: 100;
   display: none;
+  overflow-y: auto;
 
   &--active {
     display: flex;

@@ -60,7 +60,6 @@ const MyCalendar = ({
         eventPropGetter={(event) => {
           console.log(event);
           const isParticipant = event?.participants?.some(participant => participant?.id === myData?.id)
-          // const backgroundImage = isParticipant ? "url('/circle.svg')" : null
           const isEventPassed = event.dateStart > new Date().toISOString() ? false : true
           const isOwner = event?.owner?.id === myData?.id && !isEventPassed
           console.log(isOwner);
@@ -75,7 +74,6 @@ const MyCalendar = ({
           
             },
 
-            // className: isEventPassed ? 'event-passed' : 'event-future',
             className: isEventPassed ? 'event-passed' : isOwner ? 'event-owner' : isParticipant ? 'event-participant' : 'event-future',
           };
         }}

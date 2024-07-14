@@ -1,173 +1,166 @@
 .Content {
-    max-width: 1075px;
-    background-color: white;
-    border-radius: 64px;
-    min-height: 600px;
+  max-width: 1075px;
+  background-color: white;
+  border-radius: 64px;
+  min-height: 600px;
+  width: 100%;
+  padding: 80px 64px;
+  position: relative;
+
+  &Wrapper {
+    flex: 1 1 auto;
+    min-height: 100%;
+    display: flex;
+    gap: 40px;
+    flex-direction: column;
+  }
+  &Title {
+    margin: 0;
+
+    font-family: var(--second-family);
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #0d0c0c;
+  }
+  &Block {
+    display: flex;
+    gap: 32px;
+  }
+  &Info {
+    max-width: 212px;
     width: 100%;
-    padding: 80px 64px;
-    position: relative;
+    border-radius: 24px;
+    padding: 15px 12px 15px 16px;
+    display: flex;
+    flex-direction: column;
 
-    &Wrapper {
-        flex: 1 1 auto;
-        min-height: 100%;
-        display: flex;
-        gap: 40px;
-        flex-direction: column;
-      
-    }
-    &Title {
-        margin: 0;
+    gap: 8px;
+    background: #fafafa;
 
-        font-family: var(--second-family);
-        font-weight: 500;
-        font-size: 36px;
-        line-height: 100%;
-        letter-spacing: -0.02em;
-        text-align: center;
-        color: #0d0c0c;
-    }
-    &Block {
-        display: flex;
-        gap: 32px;
-    }
-    &Info {
-        max-width: 212px;
-        width: 100%;
-        border-radius: 24px;
-        padding: 15px 12px 15px 16px;
-        display: flex;
-        flex-direction: column;
+    font-size: 18px;
+    color: #0d0c0c;
+  }
 
-        gap: 8px;
-        background: #fafafa;
+  &InfoItems {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #efefef;
+  }
 
-        font-size: 18px;
-        color: #0d0c0c;
-       
+  &InfoItem {
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+    color: #0d0c0c;
+  }
+  &InfoPrev {
+    color: #b3b3bc;
+  }
 
-       
-    }
+  &Descr {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 140%;
+    letter-spacing: -0.02em;
+    color: #0d0c0c;
+  }
 
-    &InfoItems {
-        display: flex;
-        gap: 4px;
-        flex-direction: column;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #efefef;
-        
-    }
+  &Join {
+    max-width: 343px;
+    margin-top: auto;
+    align-self: center;
+  }
 
-    &InfoItem {
-        font-weight: 500;
-        font-size: 22px;
-        line-height: 100%;
-        letter-spacing: -0.02em;
-        color: #0d0c0c;
-    }
-    &InfoPrev {
-        color: #b3b3bc;
-    }
+  &Login {
+    margin-top: auto;
+    border: none;
+    background: transparent;
+    font-family: var(--second-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+    color: #0d0c0c;
+    cursor: pointer;
+  }
 
- 
-    &Descr {
-        font-family: var(--font-family);
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 140%;
-        letter-spacing: -0.02em;
-        color: #0d0c0c;
-    }
+  &Close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
 
-    &Join {
-        max-width: 343px;
-        margin-top: auto;
-        align-self: center;
-    }
-
-    &Login {
-        margin-top: auto;
-        border: none;
-        background: transparent;
-        font-family: var(--second-family);
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 100%;
-        letter-spacing: -0.02em;
-        color: #0d0c0c;
-        cursor: pointer;
-    }
-
-    &Close {
-        position: absolute;
-        top: 40px;
-        right: 40px;
-        background: transparent;
-        border: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-      }
-
-      &Passed {
-        border-radius: 12px;
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: #fafafa;
-        max-width: fit-content;
-        align-self: center;
-
-       
-      }
-
-  
-
-    
-
+  &Passed {
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fafafa;
+    max-width: fit-content;
+    align-self: center;
+  }
 }
 
 .Part {
-   h3.PartTitle {
+  h3.PartTitle {
     margin-bottom: 24px;
-   }
-    &List {
-        display: flex;
-        align-items: center;
-        gap: 48px;
-    }
-    &Item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+  }
+  &List {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+  &Item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 
-        & span {
-            font-weight: 500;
-            font-size: 18px;
-            line-height: 100%;
-            letter-spacing: -0.02em;
-            color: #0d0c0c;
-        }
+    & span {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 100%;
+      letter-spacing: -0.02em;
+      color: #0d0c0c;
     }
+  }
 }
 
 .Gallery {
-    &Head {
-        margin-bottom: 32px;
-    }
+  &Head {
+    margin-bottom: 32px;
+  }
 
-    &Title {
-    }
+  &Title {
+  }
 
-    &Photos {
-        // display: flex;
-        // flex-wrap: wrap;
-        // gap: 16px;
+  &Photos {
+    // display: flex;
+    // flex-wrap: wrap;
+    // gap: 16px;
+  }
 
-    }
+  &Photo {
+    border-radius: 24px;
+  }
+}
 
-    &Photo {
-        border-radius: 24px;
-    }
+@media (max-width: 1200px) {
+  .Content {
+    padding: 40px;
+    width: auto;
+  }
 }
