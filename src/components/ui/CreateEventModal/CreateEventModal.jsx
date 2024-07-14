@@ -3,7 +3,6 @@ import styles from "./CreateEventModal.module.scss";
 
 import { FileUploader } from "react-drag-drop-files";
 import Select from "react-select";
-import url from "../../../api/url";
 import { useAuth } from "../../../hooks/useAuth";
 import Calendar from "react-calendar";
 
@@ -40,8 +39,6 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent, fetchE
   };
 
   const [meData, setMeData] = useState(null);
-
-  // getMe, createdBy, checkDate
 
   function getUsers() {
     UserService.getUsers(token).then((data) => setOptions(data));

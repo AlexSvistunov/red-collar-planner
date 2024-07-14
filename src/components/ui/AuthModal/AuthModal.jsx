@@ -17,15 +17,6 @@ const AuthModal = ({
   loginUser,
 }) => {
   const dispatch = useDispatch();
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
-
-  const [registerFields, setRegisterFields] = useState({
-    name: "",
-    password: "",
-    repeatedPassword: "",
-  });
-
   const loginForm = useForm();
   const passwordForm = useForm();
   const registerForm = useForm();

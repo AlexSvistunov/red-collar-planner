@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
-import URL from "./api/url";
 import MyCalendar from "./components/MyCalendar";
 import "./index.css";
 import "./App.scss";
-
 import "./styles/calendar-styles-sass/styles.scss";
 import AuthModal from "./components/ui/AuthModal/AuthModal";
-
 import { useAuth } from "./hooks/useAuth";
 import CreateEventModal from "./components/ui/CreateEventModal/CreateEventModal";
-import EventModal from "./components/ui/EventModal/EventModal";
 import { useDispatch } from "react-redux";
 import { removeUser } from "./store/slices/userSlice";
-import { useSelector } from "react-redux";
 import EventService from "./api/EventService";
 import UserService from "./api/UserService";
 
