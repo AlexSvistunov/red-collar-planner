@@ -128,12 +128,10 @@ const App = () => {
         isModalActive={createEventActive}
         setIsModalActive={setCreateEventActive}
         createEvent={createEvent}
+        fetchEvents={ fetchEvents}
       />
 
-      {/* <EventModal
-        isModalActive={watchEventActive}
-        setIsModalActive={setWatchEventActive}
-      /> */}
+   
     </div>
   );
 };

@@ -58,24 +58,25 @@ const MyCalendar = ({
         style={{ height: 900 }}
         onSelectEvent={handleSelectEvent}
         eventPropGetter={(event) => {
+          console.log(event);
           const isParticipant = event?.participants?.some(participant => participant?.id === myData?.id)
-          const backgroundImage = isParticipant ? "url('/circle.svg')" : null
+          // const backgroundImage = isParticipant ? "url('/circle.svg')" : null
           const isEventPassed = event.dateStart > new Date().toISOString() ? false : true
-
+          const isOwner = event?.owner?.id === myData?.id && !isEventPassed
+          console.log(isOwner);
+          
           return {
             style: {
               padding: "7px 10px",
               fontWeight: 500,
               borderRadius: "8px",
               margin: "2px 0",
-              backgroundImage,
-              backgroundSize: '8px 9px',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'left'
+
           
             },
 
-            className: isEventPassed ? 'event-passed' : 'event-future',
+            // className: isEventPassed ? 'event-passed' : 'event-future',
+            className: isEventPassed ? 'event-passed' : isOwner ? 'event-owner' : isParticipant ? 'event-participant' : 'event-future',
           };
         }}
       />

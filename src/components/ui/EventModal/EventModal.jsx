@@ -22,7 +22,6 @@ const EventModal = ({
   const [meData, setMeData] = useState(null);
   const isEventPassed =
     item?.dateStart > new Date().toISOString() ? false : true;
-  console.log(item);
 
   const date = new Date(item?.dateStart);
   const days = [

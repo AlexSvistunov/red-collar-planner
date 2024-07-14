@@ -12,12 +12,9 @@ import fileTypes from "../../../utils/fileTypes";
 import fillTime from "../../../utils/timeOptions";
 import UserService from "../../../api/UserService";
 
-const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
-
-
+const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent, fetchEvents }) => {
   const { token, isAuth } = useAuth();
   const [options, setOptions] = useState([]);
-  console.log(options);
 
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -32,12 +29,14 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   const [file, setFile] = useState(null);
   const handleChange = (file) => {
     setFile(file);
+    setCreateFields({...createFields, photos: file})
   };
 
   const removeFile = (key) => {
     const updatedFiles = { ...file };
     delete updatedFiles[key];
     setFile(updatedFiles);
+    setCreateFields({...createFields, photos: updatedFiles})
   };
 
   const [meData, setMeData] = useState(null);
@@ -47,7 +46,6 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
   function getUsers() {
     UserService.getUsers(token).then((data) => setOptions(data));
   }
-
 
   useEffect(() => {
     if (isAuth) {
@@ -63,38 +61,34 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
     time: "",
     location: "",
     participants: [],
-    photos: []
+    photos: [],
   });
 
-  console.log(file);
 
   const onChangeDateStart = (date) => {
     setStartCalendarValue(date);
-    setIsStartCalendarVisible(false)
-    setCreateFields({...createFields, dateStart: date.toISOString()})
+    setIsStartCalendarVisible(false);
+    setCreateFields({ ...createFields, dateStart: date.toISOString() });
   };
   const onChangeDateEnd = (date) => {
     setEndCalendarValue(date);
-    setIsEndCalendarVisible(false)
-    setCreateFields({...createFields, dateEnd: date.toISOString()})
+    setIsEndCalendarVisible(false);
+    setCreateFields({ ...createFields, dateEnd: date.toISOString() });
   };
 
   const onSelectedHandler = (e) => {
-    setSelectedOption(e)
+    setSelectedOption(e);
     setCreateFields({
       ...createFields,
-      participants: e.map(el => el.id),
-    })
+      participants: e.map((el) => el.id),
+    });
     console.log(e);
-  }
-
-
-  console.log(createFields);
+  };
 
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
-        <div className={styles.ModalContentWrapper}>
+        <form className={styles.ModalContentWrapper}>
           <button
             className={styles.ModalContentClose}
             onClick={() => setIsModalActive(false)}
@@ -141,7 +135,19 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
               <Select
                 isMulti
                 defaultValue={selectedOption}
+       
+             
                 onChange={onSelectedHandler}
+                styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    border: '1px solid #b3b3bc',
+                    borderRadius: '12px',
+                    padding: '18px 16px'
+                 
+                  }),
+                }}
+                
                 options={options?.map((option) => {
                   option.value = option.username;
                   option.label = option.username;
@@ -224,16 +230,16 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                   setCreateFields({ ...createFields, dateEnd: e.target.value })
                 }
               ></input> */}
-              {/* <input
+              <input
                 className="input-base"
                 type="text"
                 placeholder="Время"
-                value={createFields.time}
-                onChange={(e) =>
-                  setCreateFields({ ...createFields, time: e.target.value })
-                }
-              ></input> */}
-{/* 
+                // value={createFields.time}
+                // onChange={(e) =>
+                //   setCreateFields({ ...createFields, time: e.target.value })
+                // }
+              ></input>
+              {/* 
               <Select options={timeOptions} />
               <Select options={timeOptions} /> */}
 
@@ -292,15 +298,21 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
 
           <button
             className={[styles.ModalContentCreate, "button"].join(" ")}
-            onClick={() =>
+            onClick={(e) => {
+              e.preventDefault();
+
               createEvent({
                 ...createFields,
-              })
-            }
+              });
+
+              fetchEvents()
+
+              setIsModalActive(false)
+            }}
           >
             Создать
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

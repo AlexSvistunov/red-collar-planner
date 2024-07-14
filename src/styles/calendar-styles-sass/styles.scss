@@ -225,7 +225,24 @@
   color: #0d0c0c;
 }
 
+.event-owner {
+  background-color: #F51B1B;
+  background-image: url('/owner-star.svg');
+  background-repeat: no-repeat;
+  background-size: 16px 16px !important;
+  padding-left: 20px !important;
+  background-position: center left 3px;
+}
 
+.event-participant {
+  background: #efefef;
+  color: #0d0c0c;
+  background-image: url('/circle.svg');
+  background-size: 8px 9px;
+  background-repeat: no-repeat;
+  background-position: center left 3px;
+  padding-left: 15px !important;
+}
 
 
 // .event {

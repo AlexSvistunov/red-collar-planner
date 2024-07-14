@@ -16,7 +16,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // участники в модалке
 // если выходим, то не обновляюся красные точки, и если зайдем, тоже, а также когда присоединяюсь
 // присоед. работает с кружком
-
 // eventModal add participants, gallery
 // auth validation
 // create validation
@@ -26,12 +25,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // create success & !success
 // decomposion
 // improve code
-
 // some optional features (hover, etc)
-
 // modal view overflow
 // swiper pagination, navigation out of the swiper
-
 // wrong password (rejected, fullfilled)
 // clear steps after an action
 // clear states(inputValue
@@ -39,5 +35,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // focus placeholder
 // green border
 // disabled btn validation
-
 // create validation
