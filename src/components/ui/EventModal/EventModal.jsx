@@ -128,7 +128,7 @@ const EventModal = ({
                       <SwiperSlide className="mySlide" key={photo?.url}>
                         <img
                           className={styles.GalleryPhoto}
-                          src={`/planner_intern-main/public${photo?.url}`}
+                          src={`${URL}${photo?.url}`}
                           width={266}
                           height={160}
                         ></img>
