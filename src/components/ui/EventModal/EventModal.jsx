@@ -125,10 +125,10 @@ const EventModal = ({
                     spaceBetween={16}
                   >
                     {item?.photos?.map((photo) => (
-                      <SwiperSlide className="mySlide">
+                      <SwiperSlide className="mySlide" key={photo?.url}>
                         <img
                           className={styles.GalleryPhoto}
-                          src={`/planner_intern-main/public/${photo?.url}`}
+                          src={`/planner_intern-main/public${photo?.url}`}
                           width={266}
                           height={160}
                         ></img>
