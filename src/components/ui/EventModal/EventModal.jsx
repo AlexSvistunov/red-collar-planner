@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { URL } from "../../../api/url";
+import URL from "../../../api/url";
 import { useAuth } from "../../../hooks/useAuth";
 import styles from "./EventModal.module.scss";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import '/src/styles/global.css'
+import "/src/styles/global.css";
 
 import "swiper/css";
-import 'swiper/css/pagination';
+import "swiper/css/pagination";
+import countDays from "../../../utils/date&days";
+import UserService from "../../../api/UserService";
 
 const EventModal = ({
   watchEventActive,
@@ -22,75 +24,13 @@ const EventModal = ({
   const [meData, setMeData] = useState(null);
   const isEventPassed =
     item?.dateStart > new Date().toISOString() ? false : true;
-  console.log(item);
 
-  const date = new Date(item?.dateStart);
-  const days = [
-    "Воскресенье",
-    "Понедельник",
-    "Вторник",
-    "Среда",
-    "Четверг",
-    "Пятница",
-    "Суббота",
-  ];
-  const weekDate = days[date.getDay()];
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  const time = `${hours}:${minutes}`;
-  const day = date.getDate();
-  const month = date.toLocaleString("default", { month: "long" });
-
-  const getEventsForPublic = async () => {
-    try {
-      const response = await fetch(
-        `${URL}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`
-      );
-
-      const data = await response.json();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getEventsForAuth = async () => {
-    try {
-      const response = await fetch(
-        `${URL}/api/events?populate=*&filters[dateStart][$gte]=2022-10-14T14:00:00.000Z&filters[dateStart][$lte]=2024-10-14T14:00:00.000Z`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const data = await response.json();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getMe = async () => {
-    try {
-      const response = await fetch(`${URL}/api/users/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-      setMeData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { weekDate, hours, minutes, time, day, month } = countDays(
+    new Date(item?.dateStart)
+  );
 
   useEffect(() => {
-    getEventsForPublic();
-    getEventsForAuth();
-    getMe();
+    UserService.getMe(token).then((data) => setMeData(data));
   }, []);
 
   return (
@@ -180,10 +120,9 @@ const EventModal = ({
                 <div className={styles.GalleryPhotos}>
                   <Swiper
                     modules={[Pagination]}
-                    slidesPerView={'auto'}
+                    slidesPerView={"auto"}
                     pagination={{ clickable: true }}
                     spaceBetween={16}
-                    
                   >
                     {item?.photos?.map((photo) => (
                       <SwiperSlide className="mySlide">
@@ -247,8 +186,6 @@ const EventModal = ({
                 присоединиться к событию
               </button>
             )}
-
-          
           </div>
         )}
       </div>

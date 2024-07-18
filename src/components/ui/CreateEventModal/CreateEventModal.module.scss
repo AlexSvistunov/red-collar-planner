@@ -20,7 +20,7 @@
     width: 100%;
     padding: 40px;
     background: #fff;
-    min-height: 510px;
+    min-height: 907px;
     border-radius: 64px;
     display: flex;
   }
@@ -67,6 +67,12 @@
     align-items: center;
     cursor: pointer;
   }
+
+  &ContentCreate {
+    max-width: 144px;
+    margin: 0 auto;
+    margin-top: auto;
+  }
 }
 
 
@@ -80,6 +86,10 @@
     gap: 32px;
     max-width: 580px;
     width: 100%;
+
+    & textarea {
+      min-height: 153px;
+    }
   }
 
   &Right {
@@ -88,5 +98,102 @@
     gap: 32px;
     width: 100%;
     max-width: 346px;
+    position: relative;
+  }
+}
+
+
+.Choose {
+  border: 1px dashed #b3b3bc;
+  border-radius: 12px;
+  width: 580px;
+  height: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &Select {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 110%;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #b3b3bc;
+  }
+
+  &Images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+  }
+
+  &Image {
+    position: relative;
+  }
+
+  &Remove {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background-color: black;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.Input {
+  border: 1px solid #b3b3bc;
+  border-radius: 12px;
+  padding: 10px 16px 9px 16px;
+  position: relative;
+  flex: 1 1 auto;
+  height: 60px;
+  display: flex;
+  align-items: center;
+
+  & img {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+  }
+
+  &Wrapper {
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.Calendar {
+  position: absolute;
+  z-index: 100;
+  top: 15%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@media (max-width: 1200px) {
+  .Modal {
+      &Content {
+        padding: 40px;
+        min-height: 500px;
+        width: auto;
+      }
+  }
+
+  .Input {
+    & img {
+      display: none;
+    }
   }
 }

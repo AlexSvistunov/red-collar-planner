@@ -3,8 +3,6 @@ import styles from "./LoginAuthStep.module.scss";
 
 const LoginAuthStep = ({ loginForm, submit }) => {
 
-
-
   return (
     <form className={styles.Form} onSubmit={loginForm.handleSubmit(submit)}>
       <div className={styles.FormInputBox}>

@@ -1,78 +1,91 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CreateEventModal.module.scss";
 
-const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
-  const [createFields, setCreateFields] = useState({
-    title: "",
-    description: "",
-    dateStart: "",
-    dateEnd: "",
-    time: "",
-    location: "",
-    participants: [1],
-  });
+import { FileUploader } from "react-drag-drop-files";
+import Select from "react-select";
+import { useAuth } from "../../../hooks/useAuth";
+import Calendar from "react-calendar";
+
+import "react-calendar/dist/Calendar.css";
+import fileTypes from "../../../utils/fileTypes";
+import fillTime from "../../../utils/timeOptions";
+import UserService from "../../../api/UserService";
+
+const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent, fetchEvents }) => {
+  const { token, isAuth } = useAuth();
+  const [options, setOptions] = useState([]);
+
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const [startCalendarValue, setStartCalendarValue] = useState(new Date());
+  const [endCalendarValue, setEndCalendarValue] = useState(new Date());
+
+  const [isStartCalendarVisible, setIsStartCalendarVisible] = useState(false);
+  const [isEndCalendarVisible, setIsEndCalendarVisible] = useState(false);
+
+  const timeOptions = fillTime([]);
+
+  const [file, setFile] = useState(null);
+  const handleChange = (file) => {
+    setFile(file);
+    setCreateFields({...createFields, photos: file})
+  };
+
+  const removeFile = (key) => {
+    const updatedFiles = { ...file };
+    delete updatedFiles[key];
+    setFile(updatedFiles);
+    setCreateFields({...createFields, photos: updatedFiles})
+  };
 
   const [meData, setMeData] = useState(null);
 
-  function checkDate(date) {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1; 
-    const day = currentDate.getDate();
-
-    const formattedDate = `${day < 10 ? "0" : ""}${day}.${
-      month < 10 ? "0" : ""
-    }${month}.${year}`;
-
-
-    const inputDate = new Date(date);
-    const yearInput = inputDate.getFullYear();
-    const monthInput = inputDate.getMonth() + 1; 
-    const dayInput = inputDate.getDate();
-
-    const formattedDateInput = `${dayInput < 10 ? "0" : ""}${dayInput}.${
-      monthInput < 10 ? "0" : ""
-    }${monthInput}.${yearInput}`;
-
-
-
-    if (formattedDateInput >= formattedDate) {
-      return false;
-    } else {
-      return true;
-    }
+  function getUsers() {
+    UserService.getUsers(token).then((data) => setOptions(data));
   }
 
-  const getMe = async () => {
-    try {
-      const response = await fetch(`${URL}/api/users/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-      setMeData(data);
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (isAuth) {
+      getUsers();
     }
+  }, [isAuth]);
+
+  const [createFields, setCreateFields] = useState({
+    title: "",
+    description: "",
+    dateStart: new Date().toISOString(),
+    dateEnd: new Date().toISOString(),
+    time: "",
+    location: "",
+    participants: [],
+    photos: [],
+  });
+
+
+  const onChangeDateStart = (date) => {
+    setStartCalendarValue(date);
+    setIsStartCalendarVisible(false);
+    setCreateFields({ ...createFields, dateStart: date.toISOString() });
+  };
+  const onChangeDateEnd = (date) => {
+    setEndCalendarValue(date);
+    setIsEndCalendarVisible(false);
+    setCreateFields({ ...createFields, dateEnd: date.toISOString() });
   };
 
-  const createdBy = (item) => {
-    if(item.owner.id === myData.id) {
-      return true
-    } else {
-      return false
-    }
-  }
-
-
+  const onSelectedHandler = (e) => {
+    setSelectedOption(e);
+    setCreateFields({
+      ...createFields,
+      participants: e.map((el) => el.id),
+    });
+    console.log(e);
+  };
 
   return (
     <div className={isModalActive ? "modal modal--active" : "modal"}>
       <div className={styles.ModalContent}>
-        <div className={styles.ModalContentWrapper}>
+        <form className={styles.ModalContentWrapper}>
           <button
             className={styles.ModalContentClose}
             onClick={() => setIsModalActive(false)}
@@ -103,10 +116,11 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 onChange={(e) =>
                   setCreateFields({ ...createFields, title: e.target.value })
                 }
+                required
               ></input>
               <textarea
                 placeholder="Описание"
-                 className="input-base"
+                className="input-base"
                 value={createFields.description}
                 onChange={(e) =>
                   setCreateFields({
@@ -115,37 +129,119 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                   })
                 }
               ></textarea>
-              <div>Участники</div>
+              <Select
+                isMulti
+                defaultValue={selectedOption}
+       
+             
+                onChange={onSelectedHandler}
+                styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    border: '1px solid #b3b3bc',
+                    borderRadius: '12px',
+                    padding: '18px 16px'
+                 
+                  }),
+                }}
+                
+                options={options?.map((option) => {
+                  option.value = option.username;
+                  option.label = option.username;
+
+                  return option;
+                })}
+              />
+              <FileUploader
+                handleChange={handleChange}
+                name="file"
+                types={fileTypes}
+                multiple={true}
+              >
+                <div className={styles.Choose}>
+                  <div className={styles.ChooseSelect}>
+                    Выберите фото или перетащите сюда
+                  </div>
+                </div>
+              </FileUploader>
             </div>
             <div className={styles.ContentWrapperRight}>
-              <input
-                type="date"
-                value={createFields.dateStart}
-                onChange={(e) =>
-                  setCreateFields({
-                    ...createFields,
-                    dateStart: e.target.value,
-                  })
-                }
-              ></input>
-              <input
+              {isStartCalendarVisible && (
+                <Calendar
+                  className={styles.Calendar}
+                  onChange={onChangeDateStart}
+                  value={startCalendarValue}
+                />
+              )}
+
+              {isEndCalendarVisible && (
+                <Calendar
+                  className={styles.Calendar}
+                  onChange={onChangeDateEnd}
+                  value={endCalendarValue}
+                />
+              )}
+              <div className={styles.InputWrapper}>
+                <div
+                  className={styles.Input}
+                  onClick={() =>
+                    setIsStartCalendarVisible(!isStartCalendarVisible)
+                  }
+                >
+                  {startCalendarValue.toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                  <img src="/calendar.svg"></img>
+                </div>
+
+                <div
+                  className={styles.Input}
+                  onClick={() => setIsEndCalendarVisible(!isEndCalendarVisible)}
+                >
+                  {endCalendarValue.toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                  <img src="/calendar.svg"></img>
+                </div>
+              </div>
+
+              {/* <input
+                  type="date"
+                  value={createFields.dateStart}
+                  onChange={(e) =>
+                    setCreateFields({
+                      ...createFields,
+                      dateStart: e.target.value,
+                    })
+                  }
+                ></input> */}
+
+              {/* <input
                 type="date"
                 value={createFields.dateEnd}
                 onChange={(e) =>
                   setCreateFields({ ...createFields, dateEnd: e.target.value })
                 }
-              ></input>
+              ></input> */}
               <input
-               className="input-base"
+                className="input-base"
                 type="text"
                 placeholder="Время"
-                value={createFields.time}
-                onChange={(e) =>
-                  setCreateFields({ ...createFields, time: e.target.value })
-                }
+                // value={createFields.time}
+                // onChange={(e) =>
+                //   setCreateFields({ ...createFields, time: e.target.value })
+                // }
               ></input>
+              {/* 
+              <Select options={timeOptions} />
+              <Select options={timeOptions} /> */}
+
               <input
-               className="input-base"
+                className="input-base"
                 type="text"
                 placeholder="Место проведения"
                 value={createFields.location}
@@ -154,22 +250,66 @@ const CreateEventModal = ({ isModalActive, setIsModalActive, createEvent }) => {
                 }
               ></input>
               <div>Организатор</div>
+
+              <div className={styles.ChooseImages}>
+                {file &&
+                  Object.keys(file).map((key) => {
+                    const myFile = file[key];
+                    return (
+                      <div key={key} className={styles.ChooseImage}>
+                        <button
+                          className={styles.ChooseRemove}
+                          onClick={() => removeFile(key)}
+                        >
+                          <svg
+                            width="24"
+                            height="25"
+                            viewBox="0 0 24 25"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M12 10.25L5.25 3.5L3 5.75L9.75 12.5L3 19.25L5.25 21.5L12 14.75L18.75 21.5L21 19.25L14.25 12.5L21 5.75L18.75 3.5L12 10.25Z"
+                              fill="white"
+                            />
+                          </svg>
+                        </button>
+
+                        <img
+                          src={URL.createObjectURL(myFile)}
+                          alt={myFile.name}
+                          width={133}
+                          height={80}
+                        />
+
+                        {/* <p>Name: {myFile.name}</p>
+                      <p>Size: {myFile.size}</p> */}
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </div>
 
           <button
-          className="button"
-            onClick={() =>
+            className={[styles.ModalContentCreate, "button"].join(" ")}
+            onClick={(e) => {
+              e.preventDefault();
+
               createEvent({
                 ...createFields,
-              
-               
-              })
-            }
+              });
+
+              fetchEvents()
+
+              setIsModalActive(false)
+            }}
           >
             Создать
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );

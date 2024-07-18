@@ -1,51 +1,29 @@
 import { momentLocalizer, Calendar } from "react-big-calendar";
 import moment from "moment";
-
-// import "react-big-calendar/lib/css/react-big-calendar.css";
-// import "react-big-calendar/lib/sass/styles.scss";
-
 import EventModal from "./ui/EventModal/EventModal";
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { URL } from "../api/url";
+import UserService from "../api/UserService";
 const MyCalendar = ({
   events,
   setWatchEventActive,
   watchEventActive,
   joinEvent,
   setIsModalActive,
-  leaveEvent
+  leaveEvent,
 }) => {
-  const [activeItem, setActiveItem] = useState(null)
-  const {token} = useAuth()
+  const [activeItem, setActiveItem] = useState(null);
+  const { token } = useAuth();
   const [myData, setMyData] = useState(null);
-  
+
   const handleSelectEvent = (event) => {
     setWatchEventActive(true);
-    setActiveItem(event)
+    setActiveItem(event);
   };
 
-  const getMe = async () => {
-    try {
-      const response = await fetch(`${URL}/api/users/me`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-
-      const data = await response.json()
-      setMyData(data)
-    
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    getMe()
-  }, [])
+    UserService.getMe(token).then((data) => setMyData(data));
+  }, []);
 
   const localizer = momentLocalizer(moment);
   return (
@@ -58,9 +36,14 @@ const MyCalendar = ({
         style={{ height: 900 }}
         onSelectEvent={handleSelectEvent}
         eventPropGetter={(event) => {
-          const isParticipant = event?.participants?.some(participant => participant?.id === myData?.id)
-          const backgroundImage = isParticipant ? "url('/circle.svg')" : null
-          const isEventPassed = event.dateStart > new Date().toISOString() ? false : true
+          console.log(event);
+          const isParticipant = event?.participants?.some(
+            (participant) => participant?.id === myData?.id
+          );
+          const isEventPassed =
+            event.dateStart > new Date().toISOString() ? false : true;
+          const isOwner = event?.owner?.id === myData?.id && !isEventPassed;
+          console.log(isOwner);
 
           return {
             style: {
@@ -68,14 +51,15 @@ const MyCalendar = ({
               fontWeight: 500,
               borderRadius: "8px",
               margin: "2px 0",
-              backgroundImage,
-              backgroundSize: '8px 9px',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'left'
-          
             },
 
-            className: isEventPassed ? 'event-passed' : 'event-future',
+            className: isEventPassed
+              ? "event-passed"
+              : isOwner
+              ? "event-owner"
+              : isParticipant
+              ? "event-participant"
+              : "event-future",
           };
         }}
       />
@@ -87,7 +71,6 @@ const MyCalendar = ({
         joinEvent={joinEvent}
         setIsModalActive={setIsModalActive}
         leaveEvent={leaveEvent}
-      
       />
     </div>
   );
